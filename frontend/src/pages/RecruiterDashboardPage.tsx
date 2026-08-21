@@ -77,32 +77,60 @@ export const RecruiterDashboardPage: React.FC = () => {
     <DashboardLayout>
       <div className="space-y-6 max-w-7xl mx-auto">
         
-        {/* Top Header Banner */}
-        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-navy-900 via-indigo-950 to-slate-900 text-white relative overflow-hidden shadow-xl">
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-2">
-              <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md text-xs font-bold text-indigo-200 border border-white/10">
-                <Building2 className="w-3.5 h-3.5 text-indigo-400" />
-                <span>Company Hiring Partner Portal</span>
+        {/* 🏢 TOP RECRUITER & COMPANY IDENTITY BANNER */}
+        <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-[#0B0F19] via-indigo-950 to-slate-900 text-white relative overflow-hidden shadow-2xl border border-indigo-500/20">
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            
+            {/* Recruiter & Company Identity Snapshot */}
+            <div className="flex items-center space-x-4">
+              <div className="relative shrink-0">
+                <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-600 to-sky-400 p-0.5 shadow-xl shadow-indigo-500/30">
+                  <div className="w-full h-full bg-[#0B0F19] rounded-[14px] flex items-center justify-center text-white font-black text-xl tracking-wider">
+                    <span className="bg-gradient-to-r from-indigo-300 via-purple-200 to-sky-300 bg-clip-text text-transparent">
+                      TN
+                    </span>
+                  </div>
+                </div>
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-emerald-500 border-2 border-[#0B0F19] shadow-sm animate-pulse" title="Online Recruiter" />
               </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-                TechNova Hiring Hub
-              </h1>
-              <p className="text-xs sm:text-sm text-indigo-200 max-w-xl">
-                Review AI-matched student talent, filter verified skill proficiencies, and schedule technical interviews.
-              </p>
+
+              <div className="space-y-1">
+                <div className="flex items-center space-x-2">
+                  <h1 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                    Demo Recruiter
+                  </h1>
+                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-[10px] font-extrabold flex items-center space-x-1">
+                    <CheckCircle2 className="w-3 h-3" />
+                    <span>Active Recruiter</span>
+                  </span>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2 text-xs text-indigo-200">
+                  <span className="font-semibold">Talent Acquisition Manager</span>
+                  <span>•</span>
+                  <span className="font-extrabold text-white">TechNova Solutions</span>
+                  <span className="px-1.5 py-0.2 rounded bg-indigo-500/30 text-indigo-200 text-[10px] font-bold">Verified Partner ✓</span>
+                </div>
+
+                <p className="text-[11px] text-slate-400 max-w-lg leading-snug">
+                  12 Active Internships • 1,250 Student Applications Received • AI Compatibility Engine Active
+                </p>
+              </div>
             </div>
 
-            <div className="flex items-center space-x-3">
+            {/* Quick Actions */}
+            <div className="flex items-center space-x-3 shrink-0">
               <button
                 onClick={() => setModalOpen(true)}
-                className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-lg shadow-indigo-600/30 flex items-center space-x-1.5 transition-all hover:scale-[1.02]"
+                className="px-5 py-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold text-xs shadow-lg shadow-indigo-600/30 flex items-center space-x-1.5 transition-all hover:scale-[1.02]"
               >
                 <Plus className="w-4 h-4" />
-                <span>Post New Internship</span>
+                <span>+ Post New Internship</span>
               </button>
             </div>
           </div>
+
+          <div className="absolute -right-10 -bottom-10 w-48 h-48 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
         </div>
 
         {/* Quick Stats Grid */}

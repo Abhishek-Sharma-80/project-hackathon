@@ -25,8 +25,10 @@ import {
   Moon,
   Languages as LangIcon,
   Building2,
-  ChevronDown
+  ChevronDown,
+  MoreVertical
 } from 'lucide-react';
+import { RecruiterProfileCard } from '../recruiter/RecruiterProfileCard';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -147,28 +149,32 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
 
         {/* Bottom Profile Snapshot */}
         <div className="p-3 border-t border-slate-100 dark:border-slate-800/80">
-          <div className={`flex items-center ${collapsed ? 'justify-center' : 'space-x-3'} p-2 rounded-2xl bg-slate-50 dark:bg-slate-800/60`}>
-            <img
-              src={user?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(user?.name || 'User')}`}
-              alt="User"
-              className="w-8 h-8 rounded-xl bg-slate-200 dark:bg-slate-700 shrink-0 object-cover"
-            />
-            {!collapsed && (
-              <div className="truncate flex-1">
-                <p className="text-xs font-bold text-slate-900 dark:text-white truncate">{user?.name || 'Abhishek Sharma'}</p>
-                <p className="text-[10px] text-slate-400 truncate">{profile?.college || (user?.role === 'admin' ? 'Placement Officer' : user?.role === 'recruiter' ? 'TechNova HR' : 'Galgotias University')}</p>
-              </div>
-            )}
-            {!collapsed && (
-              <button
-                onClick={() => { logout(); navigate('/'); }}
-                className="p-1.5 text-slate-400 hover:text-rose-500 transition-colors"
-                title="Logout"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
-            )}
-          </div>
+          {user?.role === 'recruiter' || location.pathname === '/recruiter' ? (
+            <RecruiterProfileCard collapsed={collapsed} placement="sidebar" />
+          ) : (
+            <div className={`flex items-center ${collapsed ? 'justify-center' : 'space-x-3'} p-2 rounded-2xl bg-slate-50 dark:bg-slate-800/60`}>
+              <img
+                src={user?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(user?.name || 'User')}`}
+                alt="User"
+                className="w-8 h-8 rounded-xl bg-slate-200 dark:bg-slate-700 shrink-0 object-cover"
+              />
+              {!collapsed && (
+                <div className="truncate flex-1">
+                  <p className="text-xs font-bold text-slate-900 dark:text-white truncate">{user?.name || 'Abhishek Sharma'}</p>
+                  <p className="text-[10px] text-slate-400 truncate">{profile?.college || (user?.role === 'admin' ? 'Placement Officer' : 'Galgotias University')}</p>
+                </div>
+              )}
+              {!collapsed && (
+                <button
+                  onClick={() => { logout(); navigate('/'); }}
+                  className="p-1.5 text-slate-400 hover:text-rose-500 transition-colors"
+                  title="Logout"
+                >
+                  <LogOut className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </aside>
 
