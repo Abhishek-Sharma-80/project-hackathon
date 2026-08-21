@@ -26,8 +26,10 @@ import {
   Languages as LangIcon,
   Building2,
   ChevronDown,
-  MoreVertical
+  MoreVertical,
+  FileText
 } from 'lucide-react';
+
 import { RecruiterProfileCard } from '../recruiter/RecruiterProfileCard';
 
 interface DashboardLayoutProps {
@@ -51,15 +53,15 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
   const navigate = useNavigate();
 
   const navItems = [
-    { label: t('nav_dashboard'), path: '/dashboard', icon: LayoutDashboard },
-    { label: t('nav_recommendations'), path: '/recommendations', icon: Sparkles, badge: '91% AI' },
+    { label: t('nav_dashboard'), path: '/student/dashboard', icon: LayoutDashboard },
+    { label: t('nav_recommendations'), path: '/student/recommendations', icon: Sparkles, badge: '91% AI' },
     { label: t('nav_explore'), path: '/explore', icon: Search },
-    { label: t('nav_skill_gap'), path: '/skill-gap', icon: TrendingUp },
-    { label: t('nav_learning_path'), path: '/learning-path', icon: Map },
-    { label: t('nav_applications'), path: '/applications', icon: Briefcase },
-    { label: t('nav_saved'), path: '/saved', icon: Bookmark },
-    { label: t('nav_profile'), path: '/profile', icon: User },
-    { label: 'Company Hub', path: '/recruiter', icon: Building2, badge: 'Partner' }
+    { label: t('nav_skill_gap'), path: '/student/skill-gap', icon: TrendingUp },
+    { label: t('nav_learning_path'), path: '/student/learning-path', icon: Map },
+    { label: t('nav_applications'), path: '/student/applications', icon: Briefcase },
+    { label: 'ATS Resume', path: '/student/ats-resume', icon: FileText, badge: '82/100' },
+    { label: t('nav_saved'), path: '/student/saved', icon: Bookmark },
+    { label: t('nav_profile'), path: '/student/profile', icon: User },
   ];
 
   if (isAdmin || user?.role === 'admin') {

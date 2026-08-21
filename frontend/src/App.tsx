@@ -25,6 +25,7 @@ import { LearningPathPage } from './pages/LearningPathPage';
 import { ApplicationTrackerPage } from './pages/ApplicationTrackerPage';
 import { SavedInternshipsPage } from './pages/SavedInternshipsPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { ATSResumePage } from './pages/ATSResumePage';
 
 // 💼 Recruiter Portal Pages & Auth
 import { RecruiterLoginPage } from './pages/auth/RecruiterLoginPage';
@@ -77,6 +78,7 @@ export const App: React.FC = () => {
               <Route path="/student/internships" element={<ExploreInternshipsPage />} />
               <Route path="/student/applications" element={<ApplicationTrackerPage />} />
               <Route path="/student/saved" element={<SavedInternshipsPage />} />
+              <Route path="/student/ats-resume" element={<ATSResumePage />} />
             </Route>
 
             {/* Student Aliases for backwards compatibility */}
