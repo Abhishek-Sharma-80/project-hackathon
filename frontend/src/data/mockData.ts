@@ -834,55 +834,601 @@ export const MOCK_APPLICATIONS: Application[] = [
 ];
 
 export const MOCK_ADMIN_STATS: AdminStats = {
-  totalStudents: 1200,
-  activeStudents: 640,
-  availableInternships: 320,
-  partnerCompanies: 150,
-  totalApplications: 1840,
-  totalRecommendationsGenerated: 5420,
+  totalStudents: 12480,
+  activeStudents: 8640,
+  availableInternships: 1250,
+  partnerCompanies: 320,
+  totalApplications: 24560,
+  totalRecommendationsGenerated: 45820,
   studentsAtRiskCount: 85,
   sectorDistribution: [
-    { sector: 'Software Development', count: 142 },
-    { sector: 'Artificial Intelligence', count: 68 },
-    { sector: 'Data Science', count: 45 },
-    { sector: 'UI/UX Design', count: 32 },
-    { sector: 'Cloud & DevOps', count: 21 },
-    { sector: 'Cybersecurity', count: 12 }
+    { sector: 'Software Development', count: 480 },
+    { sector: 'Artificial Intelligence', count: 260 },
+    { sector: 'Data Science', count: 190 },
+    { sector: 'Cloud & DevOps', count: 140 },
+    { sector: 'UI/UX Design', count: 110 },
+    { sector: 'Cybersecurity', count: 70 }
   ],
   topDemandedSkills: [
-    { skill: 'Java', count: 98 },
-    { skill: 'React', count: 94 },
-    { skill: 'Python', count: 88 },
-    { skill: 'SQL', count: 84 },
-    { skill: 'Spring Boot', count: 62 },
-    { skill: 'Docker', count: 58 },
-    { skill: 'AWS', count: 52 },
-    { skill: 'TypeScript', count: 48 }
+    { skill: 'Java', count: 420 },
+    { skill: 'Python', count: 390 },
+    { skill: 'SQL', count: 340 },
+    { skill: 'React', count: 290 },
+    { skill: 'Spring Boot', count: 260 },
+    { skill: 'JavaScript', count: 240 },
+    { skill: 'Machine Learning', count: 210 },
+    { skill: 'AWS', count: 180 },
+    { skill: 'Docker', count: 160 },
+    { skill: 'Data Structures', count: 150 }
   ],
   applicationStatusBreakdown: [
-    { status: 'Applied', count: 720 },
-    { status: 'Under Review', count: 460 },
-    { status: 'Shortlisted', count: 340 },
-    { status: 'Interview', count: 190 },
-    { status: 'Selected', count: 130 }
+    { status: 'Applied', count: 12450 },
+    { status: 'Shortlisted', count: 4820 },
+    { status: 'Under Review', count: 3470 },
+    { status: 'Selected', count: 620 },
+    { status: 'Rejected', count: 3200 }
   ],
   skillDistribution: [
-    { name: 'Backend (Java/Python/Node)', percentage: 38, color: '#6366F1' },
-    { name: 'Frontend (React/Next/Vue)', percentage: 26, color: '#0EA5E9' },
-    { name: 'AI & Data Science', percentage: 20, color: '#8B5CF6' },
-    { name: 'DevOps & Cloud', percentage: 10, color: '#10B981' },
-    { name: 'Design & Product', percentage: 6, color: '#F59E0B' }
+    { name: 'Java', percentage: 30, color: '#6366F1' },
+    { name: 'Python', percentage: 25, color: '#0EA5E9' },
+    { name: 'SQL', percentage: 20, color: '#8B5CF6' },
+    { name: 'React', percentage: 15, color: '#10B981' },
+    { name: 'DSA', percentage: 10, color: '#F59E0B' }
   ],
   monthlyTrends: [
-    { month: 'Sep', applications: 210, placements: 28 },
-    { month: 'Oct', applications: 340, placements: 42 },
-    { month: 'Nov', applications: 480, placements: 65 },
-    { month: 'Dec', applications: 390, placements: 54 },
-    { month: 'Jan', applications: 620, placements: 89 },
-    { month: 'Feb', applications: 780, placements: 112 }
+    { month: 'Sep', applications: 2400, placements: 140 },
+    { month: 'Oct', applications: 3800, placements: 210 },
+    { month: 'Nov', applications: 5100, placements: 340 },
+    { month: 'Dec', applications: 4200, placements: 280 },
+    { month: 'Jan', applications: 6900, placements: 490 },
+    { month: 'Feb', applications: 8400, placements: 620 }
   ],
   recentApplications: MOCK_APPLICATIONS
 };
+
+export const MOCK_ADMIN_COMPANIES: import('../types').Company[] = [
+  {
+    id: 'comp-1',
+    name: 'TechNova Solutions',
+    logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=128&h=128&fit=crop&crop=faces&q=80',
+    industry: 'Technology & Cloud Systems',
+    website: 'https://technova.ai',
+    location: 'Bengaluru / Remote',
+    contactPerson: 'Pooja Nair (Head of University Talent)',
+    contactEmail: 'pooja.nair@technova.ai',
+    contactPhone: '+91 98450 11223',
+    activeInternshipsCount: 12,
+    totalApplicationsCount: 1250,
+    averageMatchScore: 89.4,
+    status: 'Verified',
+    description: 'Enterprise AI & cloud platform engineering company building next-gen distributed systems for global financial institutions.',
+    foundedYear: 2019,
+    companySize: '250 - 500 Employees'
+  },
+  {
+    id: 'comp-2',
+    name: 'CodeCraft Solutions',
+    logo: 'https://images.unsplash.com/photo-1572044162444-ad60f128bdea?w=128&h=128&fit=crop&crop=faces&q=80',
+    industry: 'Software Engineering',
+    website: 'https://codecraft.io',
+    location: 'Hyderabad / Hybrid',
+    contactPerson: 'Rahul Sen (Director of Engineering)',
+    contactEmail: 'rahul.sen@codecraft.io',
+    contactPhone: '+91 98765 99881',
+    activeInternshipsCount: 8,
+    totalApplicationsCount: 890,
+    averageMatchScore: 87.2,
+    status: 'Verified',
+    description: 'Fintech software development agency specializing in mission-critical core banking architectures, Java Spring Boot microservices, and Kafka streaming.',
+    foundedYear: 2018,
+    companySize: '100 - 250 Employees'
+  },
+  {
+    id: 'comp-3',
+    name: 'NexGen AI Labs',
+    logo: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=128&h=128&fit=crop&crop=faces&q=80',
+    industry: 'Artificial Intelligence & ML',
+    website: 'https://nexgenai.tech',
+    location: 'Bengaluru / Hybrid',
+    contactPerson: 'Dr. Arjun Varma (Lead AI Scientist)',
+    contactEmail: 'arjun.varma@nexgenai.tech',
+    contactPhone: '+91 98112 33445',
+    activeInternshipsCount: 6,
+    totalApplicationsCount: 1420,
+    averageMatchScore: 92.1,
+    status: 'Verified',
+    description: 'Generative AI and computer vision research company building open-source foundation models and retrieval-augmented generation pipelines.',
+    foundedYear: 2021,
+    companySize: '50 - 100 Employees'
+  },
+  {
+    id: 'comp-4',
+    name: 'CloudScale Networks',
+    logo: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=128&h=128&fit=crop&crop=faces&q=80',
+    industry: 'Cloud Infrastructure & DevOps',
+    website: 'https://cloudscale.net',
+    location: 'Pune / Remote',
+    contactPerson: 'Aditi Sharma (VP People)',
+    contactEmail: 'aditi.sharma@cloudscale.net',
+    contactPhone: '+91 99220 88776',
+    activeInternshipsCount: 5,
+    totalApplicationsCount: 640,
+    averageMatchScore: 85.8,
+    status: 'Verified',
+    description: 'Kubernetes orchestration and multi-cloud observability platform managing multi-region serverless clusters.',
+    foundedYear: 2020,
+    companySize: '150 - 300 Employees'
+  },
+  {
+    id: 'comp-5',
+    name: 'DataSphere Analytics',
+    logo: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=128&h=128&fit=crop&crop=faces&q=80',
+    industry: 'Data Analytics & Business Intelligence',
+    website: 'https://datasphere.io',
+    location: 'Gurugram / On-site',
+    contactPerson: 'Manoj Pillai (Operations Head)',
+    contactEmail: 'manoj.pillai@datasphere.io',
+    contactPhone: '+91 98101 22334',
+    activeInternshipsCount: 4,
+    totalApplicationsCount: 520,
+    averageMatchScore: 82.5,
+    status: 'Verified',
+    description: 'Enterprise data consulting and real-time visualization platform serving Fortune 500 retail companies.',
+    foundedYear: 2017,
+    companySize: '200 - 500 Employees'
+  },
+  {
+    id: 'comp-6',
+    name: 'Aura Design Studio',
+    logo: 'https://images.unsplash.com/photo-1542744094-3a31f272c490?w=128&h=128&fit=crop&crop=faces&q=80',
+    industry: 'UI/UX & Product Design',
+    website: 'https://aurastudio.design',
+    location: 'Mumbai / Hybrid',
+    contactPerson: 'Sanya Mirza (Principal Designer)',
+    contactEmail: 'sanya@aurastudio.design',
+    contactPhone: '+91 98200 44556',
+    activeInternshipsCount: 3,
+    totalApplicationsCount: 410,
+    averageMatchScore: 86.0,
+    status: 'Verified',
+    description: 'Boutique digital product design studio crafting world-class interfaces and design systems for hyper-growth unicorns.',
+    foundedYear: 2022,
+    companySize: '20 - 50 Employees'
+  },
+  {
+    id: 'comp-7',
+    name: 'ScaleForge Systems',
+    logo: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=128&h=128&fit=crop&crop=faces&q=80',
+    industry: 'Fullstack SaaS',
+    website: 'https://scaleforge.com',
+    location: 'Noida / Hybrid',
+    contactPerson: 'Karan Mehra (Founder)',
+    contactEmail: 'karan@scaleforge.com',
+    contactPhone: '+91 98110 55667',
+    activeInternshipsCount: 3,
+    totalApplicationsCount: 380,
+    averageMatchScore: 84.1,
+    status: 'Pending',
+    description: 'B2B enterprise automation suite building React + FastAPI microservices for manufacturing supply chain tracking.',
+    foundedYear: 2023,
+    companySize: '15 - 30 Employees'
+  },
+  {
+    id: 'comp-8',
+    name: 'SecureShield Cyber Labs',
+    logo: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=128&h=128&fit=crop&crop=faces&q=80',
+    industry: 'Cybersecurity & Infosec',
+    website: 'https://secureshield.io',
+    location: 'Bengaluru / Remote',
+    contactPerson: 'Col. Vikrant Roy (Chief Security Officer)',
+    contactEmail: 'vikrant@secureshield.io',
+    contactPhone: '+91 99880 11223',
+    activeInternshipsCount: 2,
+    totalApplicationsCount: 290,
+    averageMatchScore: 81.3,
+    status: 'Verified',
+    description: 'Offensive and defensive cybersecurity testing platform providing vulnerability assessments and incident response.',
+    foundedYear: 2020,
+    companySize: '50 - 100 Employees'
+  }
+];
+
+export const MOCK_ADMIN_REPORTS: import('../types').AdminReport[] = [
+  {
+    id: 'rep-1',
+    title: 'Student Cohort Growth & Skill Onboarding Report (Q1 2025)',
+    category: 'Students',
+    generatedDate: '2025-02-20',
+    format: 'PDF',
+    fileSize: '2.4 MB',
+    status: 'Ready',
+    metricsSummary: '12,480 Registered Students • 82% Avg Profile Completion • +12.5% Monthly Growth'
+  },
+  {
+    id: 'rep-2',
+    title: 'Internship Market Demand & Sector Openings Analysis',
+    category: 'Internships',
+    generatedDate: '2025-02-19',
+    format: 'CSV',
+    fileSize: '840 KB',
+    status: 'Ready',
+    metricsSummary: '1,250 Active Listings • Software Development (38%) • Avg Stipend ₹21,500/mo'
+  },
+  {
+    id: 'rep-3',
+    title: 'Application Funnel & Student Placement Conversion Report',
+    category: 'Applications',
+    generatedDate: '2025-02-18',
+    format: 'PDF',
+    fileSize: '3.1 MB',
+    status: 'Ready',
+    metricsSummary: '24,560 Applications • 4,820 Shortlisted • 620 Placements Extended (2.5% Conversion)'
+  },
+  {
+    id: 'rep-4',
+    title: 'Comprehensive University Skill Gap & Competency Matrix',
+    category: 'Skill Gap',
+    generatedDate: '2025-02-17',
+    format: 'PDF',
+    fileSize: '1.9 MB',
+    status: 'Ready',
+    metricsSummary: 'Spring Boot (72% gap) • Docker (68% gap) • 85 Students needing urgent guidance'
+  },
+  {
+    id: 'rep-5',
+    title: 'Explainable AI Recommendation Engine Accuracy & Precision Audit',
+    category: 'AI Performance',
+    generatedDate: '2025-02-16',
+    format: 'CSV',
+    fileSize: '1.2 MB',
+    status: 'Ready',
+    metricsSummary: '89.5% Avg Compatibility Precision • 45,820 Matches Synthesized'
+  },
+  {
+    id: 'rep-6',
+    title: 'Partner Company Hiring Engagement & Candidate Shortlist Velocity',
+    category: 'Companies',
+    generatedDate: '2025-02-15',
+    format: 'PDF',
+    fileSize: '2.8 MB',
+    status: 'Ready',
+    metricsSummary: '320 Partner Companies • 92% Verified • Avg 3.4 Days Time-to-Interview'
+  }
+];
+
+export const MOCK_ADMIN_NOTIFICATIONS: import('../types').AdminNotification[] = [
+  {
+    id: 'notif-1',
+    title: '120 New Students Registered Today',
+    description: 'Galgotias University Computer Science 3rd-year cohort successfully enrolled and completed onboarding.',
+    time: '25m ago',
+    type: 'student',
+    read: false,
+    link: '/admin/students'
+  },
+  {
+    id: 'notif-2',
+    title: 'TechNova Posted a New Internship',
+    description: 'Backend Developer Intern (Remote, 4 openings, ₹15,000/mo) submitted and published automatically.',
+    time: '1h ago',
+    type: 'company',
+    read: false,
+    link: '/admin/internships'
+  },
+  {
+    id: 'notif-3',
+    title: '45 Internships Pending Verification Approval',
+    description: 'New partner companies uploaded listings requiring administrative eligibility and stipend review.',
+    time: '3h ago',
+    type: 'approval',
+    read: false,
+    link: '/admin/internships'
+  },
+  {
+    id: 'notif-4',
+    title: '85 Students Identified At Risk for Career Guidance',
+    description: 'Students with low verified skill counts (<3) and zero submitted applications flagged by AI scanner.',
+    time: '5h ago',
+    type: 'risk',
+    read: false,
+    link: '/admin/students'
+  },
+  {
+    id: 'notif-5',
+    title: 'AI Recommendation Cache Refreshed',
+    description: 'Groq LLaMA-3.3 neural recommendation index synthesized 45,820 new candidate compatibility scores.',
+    time: '1d ago',
+    type: 'system',
+    read: true,
+    link: '/admin/ai-recommendations'
+  }
+];
+
+export const MOCK_ADMIN_LEARNING_PATHS: import('../types').LearningPathAdmin[] = [
+  {
+    id: 'path-backend',
+    title: 'Backend Developer Path (Java & Spring)',
+    category: 'Software Development',
+    description: 'Industry-standard roadmap covering Java OOP, Spring Boot, REST APIs, Docker, and scalable microservices architecture.',
+    durationWeeks: 6,
+    totalStudents: 4820,
+    completionRate: 64.2,
+    averageProgress: 72.8,
+    status: 'Active',
+    steps: [
+      { step: 1, title: 'Core Java & OOP Architecture', skills: ['Java', 'OOP', 'Collections', 'Streams'], estimatedHours: 12 },
+      { step: 2, title: 'Spring Boot Fundamentals & JPA', skills: ['Spring Boot', 'Spring Data JPA', 'Hibernate'], estimatedHours: 14 },
+      { step: 3, title: 'RESTful API Design & Validation', skills: ['REST APIs', 'Swagger', 'JWT Security'], estimatedHours: 10 },
+      { step: 4, title: 'Docker Containerization & Caching', skills: ['Docker', 'Redis', 'PostgreSQL'], estimatedHours: 8 },
+      { step: 5, title: 'Capstone Distributed Task Microservice', skills: ['System Design', 'Git', 'CI/CD'], estimatedHours: 16 }
+    ]
+  },
+  {
+    id: 'path-data',
+    title: 'Data Analyst & BI Path',
+    category: 'Data Science',
+    description: 'Master structured query language, pandas statistical data cleaning, PowerBI visual reporting, and executive metrics.',
+    durationWeeks: 5,
+    totalStudents: 3140,
+    completionRate: 58.4,
+    averageProgress: 65.1,
+    status: 'Active',
+    steps: [
+      { step: 1, title: 'Advanced SQL Querying & Joins', skills: ['SQL', 'Window Functions', 'CTEs'], estimatedHours: 10 },
+      { step: 2, title: 'Python Data Wrangling with Pandas', skills: ['Python', 'Pandas', 'NumPy'], estimatedHours: 12 },
+      { step: 3, title: 'Exploratory Data Analysis & Seaborn', skills: ['Matplotlib', 'Seaborn', 'Statistics'], estimatedHours: 8 },
+      { step: 4, title: 'Interactive Power BI & Tableau Dashboards', skills: ['Power BI', 'DAX', 'Storytelling'], estimatedHours: 10 },
+      { step: 5, title: 'E-Commerce Churn Prediction Capstone', skills: ['Business Analytics', 'Reporting'], estimatedHours: 14 }
+    ]
+  },
+  {
+    id: 'path-ai',
+    title: 'AI & Machine Learning Engineer Path',
+    category: 'Artificial Intelligence',
+    description: 'Foundations of mathematical modeling, supervised/unsupervised learning, PyTorch deep learning, and transformer deployments.',
+    durationWeeks: 8,
+    totalStudents: 2950,
+    completionRate: 46.8,
+    averageProgress: 54.2,
+    status: 'Active',
+    steps: [
+      { step: 1, title: 'Linear Algebra & Python Machine Learning', skills: ['Scikit-Learn', 'Math for ML', 'Python'], estimatedHours: 14 },
+      { step: 2, title: 'Deep Neural Networks in PyTorch', skills: ['PyTorch', 'TensorBoard', 'Backpropagation'], estimatedHours: 16 },
+      { step: 3, title: 'Computer Vision & Convolutional Nets', skills: ['OpenCV', 'CNNs', 'Transfer Learning'], estimatedHours: 12 },
+      { step: 4, title: 'Transformers & Large Language Models', skills: ['HuggingFace', 'BERT', 'RAG Pipelines'], estimatedHours: 16 },
+      { step: 5, title: 'FastAPI Production Inference Endpoint', skills: ['FastAPI', 'Docker', 'MLOps'], estimatedHours: 15 }
+    ]
+  },
+  {
+    id: 'path-cloud',
+    title: 'Cloud & DevOps Engineer Path',
+    category: 'Cloud Infrastructure',
+    description: 'Master Linux system administration, AWS cloud services, Docker container orchestration, and automated CI/CD pipelines.',
+    durationWeeks: 6,
+    totalStudents: 1840,
+    completionRate: 52.0,
+    averageProgress: 61.4,
+    status: 'Active',
+    steps: [
+      { step: 1, title: 'Linux Bash Administration & Networking', skills: ['Linux', 'Bash Scripting', 'Networking'], estimatedHours: 10 },
+      { step: 2, title: 'AWS Core Services (EC2, S3, IAM, VPC)', skills: ['AWS', 'Cloud Architecture', 'IAM'], estimatedHours: 14 },
+      { step: 3, title: 'Docker Containers & Multi-Stage Builds', skills: ['Docker', 'Container Security'], estimatedHours: 10 },
+      { step: 4, title: 'Kubernetes Pods, Services & Deployments', skills: ['Kubernetes', 'Helm', 'Minikube'], estimatedHours: 14 },
+      { step: 5, title: 'GitHub Actions Automated CI/CD Pipeline', skills: ['CI/CD', 'Terraform', 'Monitoring'], estimatedHours: 12 }
+    ]
+  },
+  {
+    id: 'path-uiux',
+    title: 'UI/UX & Product Design Path',
+    category: 'Design',
+    description: 'User research, wireframing in Figma, design systems tokenization, micro-animations, and interactive prototyping.',
+    durationWeeks: 5,
+    totalStudents: 1250,
+    completionRate: 71.5,
+    averageProgress: 81.0,
+    status: 'Active',
+    steps: [
+      { step: 1, title: 'User Research & Information Architecture', skills: ['User Research', 'Personas', 'Journey Maps'], estimatedHours: 8 },
+      { step: 2, title: 'Figma Auto-Layout & Component Variants', skills: ['Figma', 'Typography', 'Color Systems'], estimatedHours: 12 },
+      { step: 3, title: 'Design Systems & WCAG Accessibility', skills: ['Design Tokens', 'Accessibility (a11y)'], estimatedHours: 10 },
+      { step: 4, title: 'Interactive High-Fidelity Prototyping', skills: ['Micro-interactions', 'Smart Animate'], estimatedHours: 10 },
+      { step: 5, title: 'Fintech Mobile App Case Study & Behance', skills: ['Portfolio Design', 'Usability Testing'], estimatedHours: 14 }
+    ]
+  }
+];
+
+export const MOCK_AI_SETTINGS: import('../types').AISettings = {
+  skillsWeight: 40,
+  interestWeight: 30,
+  educationWeight: 20,
+  experienceWeight: 10,
+  thresholdMatchScore: 65,
+  autoRecommendationEnabled: true,
+  modelProvider: 'Groq LLaMA-3.3 Versatile (70B)',
+  highMatchCutoff: 85
+};
+
+export const MOCK_ADMIN_STUDENTS: (User & { profile: StudentProfile })[] = [
+  {
+    ...INITIAL_USER,
+    profile: INITIAL_PROFILE
+  },
+  {
+    id: 'usr-2',
+    name: 'Priya Singh',
+    email: 'priya.singh@iitd.ac.in',
+    role: 'student',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
+    createdAt: '2025-01-15T12:00:00Z',
+    profile: {
+      ...INITIAL_PROFILE,
+      id: 'prof-2',
+      userId: 'usr-2',
+      fullName: 'Priya Singh',
+      college: 'IIT Delhi',
+      branch: 'Information Technology',
+      course: 'Computer Science',
+      currentYear: 'Final Year',
+      cgpa: 9.1,
+      skills: ['Python', 'Machine Learning', 'PyTorch', 'FastAPI', 'SQL', 'Docker', 'Pandas'],
+      interests: ['Artificial Intelligence', 'Data Science'],
+      preferredRoles: ['ML Engineer', 'Data Scientist'],
+      preferredLocation: 'Bengaluru / Hybrid',
+      workPreference: 'Hybrid',
+      resumeScore: 94
+    }
+  },
+  {
+    id: 'usr-3',
+    name: 'Rohan Gupta',
+    email: 'rohan.g@dtu.ac.in',
+    role: 'student',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
+    createdAt: '2025-01-20T12:00:00Z',
+    profile: {
+      ...INITIAL_PROFILE,
+      id: 'prof-3',
+      userId: 'usr-3',
+      fullName: 'Rohan Gupta',
+      college: 'Delhi Technological University',
+      branch: 'Computer Engineering',
+      course: 'B.Tech',
+      currentYear: '3rd Year',
+      cgpa: 8.7,
+      skills: ['React', 'TypeScript', 'Tailwind CSS', 'Next.js', 'Node.js', 'Redux', 'Git'],
+      interests: ['Software Development', 'Design'],
+      preferredRoles: ['Frontend Developer', 'Full Stack Developer'],
+      preferredLocation: 'Delhi NCR / Remote',
+      workPreference: 'Remote',
+      resumeScore: 90
+    }
+  },
+  {
+    id: 'usr-4',
+    name: 'Ananya Verma',
+    email: 'ananya.v@bits-pilani.ac.in',
+    role: 'student',
+    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&auto=format&fit=crop&q=80',
+    createdAt: '2025-01-22T12:00:00Z',
+    profile: {
+      ...INITIAL_PROFILE,
+      id: 'prof-4',
+      userId: 'usr-4',
+      fullName: 'Ananya Verma',
+      college: 'BITS Pilani',
+      branch: 'Electronics & CS',
+      course: 'B.E.',
+      currentYear: '3rd Year',
+      cgpa: 8.8,
+      skills: ['Docker', 'AWS', 'Kubernetes', 'Linux', 'Python', 'Terraform', 'CI/CD'],
+      interests: ['Cloud & DevOps', 'Software Development'],
+      preferredRoles: ['DevOps Engineer', 'Cloud Architect'],
+      preferredLocation: 'Bengaluru / Remote',
+      workPreference: 'Remote',
+      resumeScore: 92
+    }
+  },
+  {
+    id: 'usr-5',
+    name: 'Vikram Malhotra',
+    email: 'vikram.m@nitk.edu.in',
+    role: 'student',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
+    createdAt: '2025-01-25T14:00:00Z',
+    profile: {
+      ...INITIAL_PROFILE,
+      id: 'prof-5',
+      userId: 'usr-5',
+      fullName: 'Vikram Malhotra',
+      college: 'NIT Surathkal',
+      branch: 'Computer Science',
+      course: 'B.Tech',
+      currentYear: '2nd Year',
+      cgpa: 7.2,
+      skills: ['C++', 'DSA', 'OOP'],
+      interests: ['Software Development'],
+      preferredRoles: ['Software Engineering Intern'],
+      preferredLocation: 'Remote',
+      workPreference: 'Remote',
+      resumeScore: 68
+    }
+  },
+  {
+    id: 'usr-6',
+    name: 'Sneha Patel',
+    email: 'sneha.patel@nirmauni.ac.in',
+    role: 'student',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+    createdAt: '2025-01-28T10:00:00Z',
+    profile: {
+      ...INITIAL_PROFILE,
+      id: 'prof-6',
+      userId: 'usr-6',
+      fullName: 'Sneha Patel',
+      college: 'Nirma University',
+      branch: 'Information Technology',
+      course: 'B.Tech',
+      currentYear: '3rd Year',
+      cgpa: 8.5,
+      skills: ['SQL', 'Power BI', 'Tableau', 'Excel', 'Python', 'Statistics'],
+      interests: ['Data Science', 'Business Analytics'],
+      preferredRoles: ['Data Analyst', 'BI Developer'],
+      preferredLocation: 'Ahmedabad / Remote',
+      workPreference: 'Hybrid',
+      resumeScore: 86
+    }
+  },
+  {
+    id: 'usr-7',
+    name: 'Karthik Raman',
+    email: 'karthik.r@annauniv.edu',
+    role: 'student',
+    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80',
+    createdAt: '2025-02-01T09:00:00Z',
+    profile: {
+      ...INITIAL_PROFILE,
+      id: 'prof-7',
+      userId: 'usr-7',
+      fullName: 'Karthik Raman',
+      college: 'Anna University',
+      branch: 'Computer Science',
+      course: 'B.E.',
+      currentYear: '2nd Year',
+      cgpa: 7.1,
+      skills: ['HTML5', 'CSS3', 'JavaScript'],
+      interests: ['Software Development'],
+      preferredRoles: ['Frontend Developer'],
+      preferredLocation: 'Chennai',
+      workPreference: 'On-site',
+      resumeScore: 64
+    }
+  },
+  {
+    id: 'usr-8',
+    name: 'Neha Chawla',
+    email: 'neha.c@thapar.edu',
+    role: 'student',
+    avatar: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=150&auto=format&fit=crop&q=80',
+    createdAt: '2025-02-05T11:00:00Z',
+    profile: {
+      ...INITIAL_PROFILE,
+      id: 'prof-8',
+      userId: 'usr-8',
+      fullName: 'Neha Chawla',
+      college: 'Thapar University',
+      branch: 'Computer Science & Design',
+      course: 'B.Tech',
+      currentYear: '3rd Year',
+      cgpa: 8.9,
+      skills: ['Figma', 'UI/UX', 'Wireframing', 'Prototyping', 'Design Systems', 'User Research'],
+      interests: ['Design', 'Software Development'],
+      preferredRoles: ['UI/UX Designer', 'Product Design Intern'],
+      preferredLocation: 'Chandigarh / Remote',
+      workPreference: 'Remote',
+      resumeScore: 91
+    }
+  }
+];
 
 export const MOCK_RECRUITER_CANDIDATES: RecruiterCandidate[] = [
   {

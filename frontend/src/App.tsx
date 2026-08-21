@@ -7,7 +7,7 @@ import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { AdminRoute } from './components/common/AdminRoute';
 import { DishaAIAssistant } from './components/common/DishaAIAssistant';
 
-// Pages
+// Public & Student Pages
 import { LandingPage } from './pages/LandingPage';
 import { HowItWorksPage } from './pages/HowItWorksPage';
 import { LoginPage } from './pages/LoginPage';
@@ -21,9 +21,21 @@ import { LearningPathPage } from './pages/LearningPathPage';
 import { ApplicationTrackerPage } from './pages/ApplicationTrackerPage';
 import { SavedInternshipsPage } from './pages/SavedInternshipsPage';
 import { ProfilePage } from './pages/ProfilePage';
-import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { RecruiterDashboardPage } from './pages/RecruiterDashboardPage';
 import { InternshipDetailPage } from './pages/InternshipDetailPage';
+
+// Admin Portal Pages
+import { AdminDashboardPage } from './pages/AdminDashboardPage';
+import { AdminStudentsPage } from './pages/admin/AdminStudentsPage';
+import { AdminInternshipsPage } from './pages/admin/AdminInternshipsPage';
+import { AdminCompaniesPage } from './pages/admin/AdminCompaniesPage';
+import { AdminApplicationsPage } from './pages/admin/AdminApplicationsPage';
+import { AdminAIRecommendationsPage } from './pages/admin/AdminAIRecommendationsPage';
+import { AdminSkillAnalyticsPage } from './pages/admin/AdminSkillAnalyticsPage';
+import { AdminLearningPathsPage } from './pages/admin/AdminLearningPathsPage';
+import { AdminReportsPage } from './pages/admin/AdminReportsPage';
+import { AdminNotificationsPage } from './pages/admin/AdminNotificationsPage';
+import { AdminSettingsPage } from './pages/admin/AdminSettingsPage';
 
 export const App: React.FC = () => {
   return (
@@ -52,9 +64,19 @@ export const App: React.FC = () => {
               <Route path="/profile" element={<ProfilePage />} />
             </Route>
 
-            {/* Admin Protected Routes */}
+            {/* Admin Portal Routes */}
             <Route element={<AdminRoute />}>
               <Route path="/admin" element={<AdminDashboardPage />} />
+              <Route path="/admin/students" element={<AdminStudentsPage />} />
+              <Route path="/admin/internships" element={<AdminInternshipsPage />} />
+              <Route path="/admin/companies" element={<AdminCompaniesPage />} />
+              <Route path="/admin/applications" element={<AdminApplicationsPage />} />
+              <Route path="/admin/ai-recommendations" element={<AdminAIRecommendationsPage />} />
+              <Route path="/admin/skill-analytics" element={<AdminSkillAnalyticsPage />} />
+              <Route path="/admin/learning-paths" element={<AdminLearningPathsPage />} />
+              <Route path="/admin/reports" element={<AdminReportsPage />} />
+              <Route path="/admin/notifications" element={<AdminNotificationsPage />} />
+              <Route path="/admin/settings" element={<AdminSettingsPage />} />
             </Route>
 
             {/* Catch-all fallback */}

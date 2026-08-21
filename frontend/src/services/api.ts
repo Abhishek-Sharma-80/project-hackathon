@@ -18,7 +18,13 @@ import {
   MOCK_ROADMAP, 
   MOCK_APPLICATIONS, 
   MOCK_ADMIN_STATS,
-  MOCK_RECRUITER_CANDIDATES 
+  MOCK_RECRUITER_CANDIDATES,
+  MOCK_ADMIN_STUDENTS,
+  MOCK_ADMIN_COMPANIES,
+  MOCK_ADMIN_REPORTS,
+  MOCK_ADMIN_NOTIFICATIONS,
+  MOCK_ADMIN_LEARNING_PATHS,
+  MOCK_AI_SETTINGS
 } from '../data/mockData';
 
 const API_BASE_URL = '/api';
@@ -578,6 +584,15 @@ class ApiService {
     }
   }
 
+  async getAllStudentsAdmin() {
+    try {
+      return await this.request<{ success: boolean; count: number; students: any[] }>('/admin/students');
+    } catch {
+      const students = this.getLocal<any[]>('admin_students', MOCK_ADMIN_STUDENTS);
+      return { success: true, count: students.length, students };
+    }
+  }
+
   async getAllApplicationsAdmin() {
     try {
       return await this.request<{ success: boolean; count: number; applications: Application[] }>('/admin/applications');
@@ -585,6 +600,113 @@ class ApiService {
       const apps = this.getLocal<Application[]>('applications', MOCK_APPLICATIONS);
       return { success: true, count: apps.length, applications: apps };
     }
+  }
+
+  async getAdminCompanies() {
+    try {
+      return await this.request<{ success: boolean; companies: import('../types').Company[] }>('/admin/companies');
+    } catch {
+      const comps = this.getLocal<import('../types').Company[]>('admin_companies', MOCK_ADMIN_COMPANIES);
+      return { success: true, count: comps.length, companies: comps };
+    }
+  }
+
+  async updateCompanyStatus(companyId: string, status: 'Verified' | 'Pending' | 'Suspended') {
+    const comps = this.getLocal<import('../types').Company[]>('admin_companies', MOCK_ADMIN_COMPANIES);
+    const updated = comps.map(c => c.id === companyId ? { ...c, status } : c);
+    this.setLocal('admin_companies', updated);
+    return { success: true, message: `Company status updated to ${status}` };
+  }
+
+  async getAdminReports() {
+    try {
+      return await this.request<{ success: boolean; reports: import('../types').AdminReport[] }>('/admin/reports');
+    } catch {
+      const reports = this.getLocal<import('../types').AdminReport[]>('admin_reports', MOCK_ADMIN_REPORTS);
+      return { success: true, count: reports.length, reports };
+    }
+  }
+
+  async generateNewReport(title: string, category: import('../types').AdminReport['category'], format: 'PDF' | 'CSV') {
+    const reports = this.getLocal<import('../types').AdminReport[]>('admin_reports', MOCK_ADMIN_REPORTS);
+    const newRep: import('../types').AdminReport = {
+      id: `rep-${Date.now()}`,
+      title,
+      category,
+      generatedDate: new Date().toISOString().split('T')[0],
+      format,
+      fileSize: format === 'PDF' ? '2.1 MB' : '750 KB',
+      status: 'Ready',
+      metricsSummary: `Automated ${category} report compiled across 12,480 student records.`
+    };
+    const updated = [newRep, ...reports];
+    this.setLocal('admin_reports', updated);
+    return { success: true, report: newRep };
+  }
+
+  async getAdminNotifications() {
+    try {
+      return await this.request<{ success: boolean; notifications: import('../types').AdminNotification[] }>('/admin/notifications');
+    } catch {
+      const notifs = this.getLocal<import('../types').AdminNotification[]>('admin_notifications', MOCK_ADMIN_NOTIFICATIONS);
+      return { success: true, notifications: notifs };
+    }
+  }
+
+  async markNotificationRead(id: string) {
+    const notifs = this.getLocal<import('../types').AdminNotification[]>('admin_notifications', MOCK_ADMIN_NOTIFICATIONS);
+    const updated = notifs.map(n => n.id === id ? { ...n, read: true } : n);
+    this.setLocal('admin_notifications', updated);
+    return { success: true };
+  }
+
+  async markAllNotificationsRead() {
+    const notifs = this.getLocal<import('../types').AdminNotification[]>('admin_notifications', MOCK_ADMIN_NOTIFICATIONS);
+    const updated = notifs.map(n => ({ ...n, read: true }));
+    this.setLocal('admin_notifications', updated);
+    return { success: true };
+  }
+
+  async getAdminLearningPaths() {
+    try {
+      return await this.request<{ success: boolean; paths: import('../types').LearningPathAdmin[] }>('/admin/learning-paths');
+    } catch {
+      const paths = this.getLocal<import('../types').LearningPathAdmin[]>('admin_learning_paths', MOCK_ADMIN_LEARNING_PATHS);
+      return { success: true, paths };
+    }
+  }
+
+  async createLearningPath(path: Partial<import('../types').LearningPathAdmin>) {
+    const paths = this.getLocal<import('../types').LearningPathAdmin[]>('admin_learning_paths', MOCK_ADMIN_LEARNING_PATHS);
+    const newPath: import('../types').LearningPathAdmin = {
+      id: `path-${Date.now()}`,
+      title: path.title || 'New Career Path',
+      category: path.category || 'Software Development',
+      description: path.description || 'Custom curriculum',
+      durationWeeks: path.durationWeeks || 6,
+      totalStudents: 0,
+      completionRate: 0,
+      averageProgress: 0,
+      status: 'Active',
+      steps: path.steps || []
+    };
+    const updated = [newPath, ...paths];
+    this.setLocal('admin_learning_paths', updated);
+    return { success: true, path: newPath };
+  }
+
+  async getAdminAISettings() {
+    try {
+      return await this.request<{ success: boolean; settings: import('../types').AISettings }>('/admin/ai-settings');
+    } catch {
+      const settings = this.getLocal<import('../types').AISettings>('admin_ai_settings', MOCK_AI_SETTINGS);
+      return { success: true, settings };
+    }
+  }
+
+  async updateAdminAISettings(newSettings: import('../types').AISettings) {
+    this.setLocal('admin_ai_settings', newSettings);
+    return { success: true, settings: newSettings };
   }
 
   // --- Recruiter Portal Endpoints ---
@@ -613,3 +735,4 @@ class ApiService {
 }
 
 export const api = new ApiService();
+

@@ -94,6 +94,7 @@ export interface RecommendationBreakdown {
 export interface Internship {
   id: string;
   companyName: string;
+  company?: string;
   companyLogo?: string;
   title: string;
   description: string;
@@ -233,3 +234,74 @@ export interface ChatMessage {
   timestamp: string;
   actionButtons?: { label: string; link?: string; action?: string }[];
 }
+
+export interface Company {
+  id: string;
+  name: string;
+  logo: string;
+  industry: string;
+  website: string;
+  location: string;
+  contactPerson: string;
+  contactEmail: string;
+  contactPhone: string;
+  activeInternshipsCount: number;
+  totalApplicationsCount: number;
+  averageMatchScore: number;
+  status: 'Verified' | 'Pending' | 'Suspended';
+  description: string;
+  foundedYear: number;
+  companySize: string;
+}
+
+export interface AdminReport {
+  id: string;
+  title: string;
+  category: 'Students' | 'Internships' | 'Applications' | 'Skill Gap' | 'AI Performance' | 'Companies';
+  generatedDate: string;
+  format: 'PDF' | 'CSV';
+  fileSize: string;
+  status: 'Ready' | 'Generating';
+  downloadUrl?: string;
+  metricsSummary: string;
+}
+
+export interface AdminNotification {
+  id: string;
+  title: string;
+  description: string;
+  time: string;
+  type: 'student' | 'company' | 'approval' | 'risk' | 'system';
+  read: boolean;
+  link?: string;
+}
+
+export interface LearningPathAdmin {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  durationWeeks: number;
+  totalStudents: number;
+  completionRate: number;
+  averageProgress: number;
+  status: 'Active' | 'Draft' | 'Archived';
+  steps: {
+    step: number;
+    title: string;
+    skills: string[];
+    estimatedHours: number;
+  }[];
+}
+
+export interface AISettings {
+  skillsWeight: number;
+  interestWeight: number;
+  educationWeight: number;
+  experienceWeight: number;
+  thresholdMatchScore: number;
+  autoRecommendationEnabled: boolean;
+  modelProvider: string;
+  highMatchCutoff: number;
+}
+
