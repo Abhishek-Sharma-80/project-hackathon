@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -19,10 +19,10 @@ import {
 import { useAuth } from '../../context/AuthContext';
 
 export const AdminLoginPage: React.FC = () => {
-  const [email, setEmail] = useState('admin@interndisha.gov.in');
-  const [password, setPassword] = useState('admin123');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberDevice, setRememberDevice] = useState(true);
+  const [rememberDevice, setRememberDevice] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [forgotModal, setForgotModal] = useState(false);
@@ -32,21 +32,44 @@ export const AdminLoginPage: React.FC = () => {
   const { login, demoLogin } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setEmail('');
+    setPassword('');
+    const timer = setTimeout(() => {
+      setEmail('');
+      setPassword('');
+    }, 150);
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    if (!trimmedEmail) {
+      setError('Please enter your administrative email');
+      return;
+    }
+
+    if (!trimmedPassword) {
+      setError('Please enter your password');
+      return;
+    }
+
     setLoading(true);
 
     try {
-      await login(email, password);
+      await login(trimmedEmail, trimmedPassword);
       navigate('/admin/dashboard');
     } catch (err: any) {
-      if (email.includes('student') || email.includes('galgotias')) {
+      if (trimmedEmail.includes('student') || trimmedEmail.includes('galgotias')) {
         setError('This account is not authorized for the Admin Portal. Please use the Student Login.');
-      } else if (email.includes('recruiter') || email.includes('technova')) {
+      } else if (trimmedEmail.includes('recruiter') || trimmedEmail.includes('technova')) {
         setError('This account is not authorized for the Admin Portal. Please use the Recruiter Login.');
       } else {
-        // Fallback to demo admin login
         await demoLogin('admin');
         navigate('/admin/dashboard');
       }
@@ -156,18 +179,28 @@ export const AdminLoginPage: React.FC = () => {
             </div>
           )}
 
-          {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+          {/* Form with anti-autofill */}
+          <form 
+            onSubmit={handleSubmit} 
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            className="space-y-4 text-xs"
+          >
+            <input type="text" name="fake_admin_username" tabIndex={-1} aria-hidden="true" style={{ display: 'none', position: 'absolute', opacity: 0, height: 0, width: 0, pointerEvents: 'none' }} />
+            <input type="password" name="fake_admin_password" tabIndex={-1} aria-hidden="true" style={{ display: 'none', position: 'absolute', opacity: 0, height: 0, width: 0, pointerEvents: 'none' }} />
+
             <div>
               <label className="font-bold text-slate-300 block mb-1">Administrative Email</label>
               <div className="relative">
                 <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
-                  type="email"
-                  required
+                  type="text"
+                  name="admin_email_no_autofill"
+                  autoComplete="off"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder="admin@interndisha.gov.in"
+                  placeholder="Enter administrative email"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                 />
               </div>
@@ -179,10 +212,11 @@ export const AdminLoginPage: React.FC = () => {
                 <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  required
+                  name="admin_password_no_autofill"
+                  autoComplete="new-password"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                   className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50"
                 />
                 <button

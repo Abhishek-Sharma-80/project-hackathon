@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { 
@@ -28,6 +28,17 @@ export const StudentLoginPage: React.FC = () => {
 
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  // Explicitly wipe any browser autofilled credentials on mount
+  useEffect(() => {
+    setEmail('');
+    setPassword('');
+    const timer = setTimeout(() => {
+      setEmail('');
+      setPassword('');
+    }, 150);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -146,14 +157,39 @@ export const StudentLoginPage: React.FC = () => {
             </div>
           )}
 
-          {/* Login Form */}
-          <form onSubmit={handleSubmit} className="space-y-4 text-xs">
+          {/* Login Form with anti-autofill controls */}
+          <form 
+            onSubmit={handleSubmit} 
+            autoComplete="off" 
+            autoCorrect="off" 
+            autoCapitalize="off" 
+            className="space-y-4 text-xs"
+          >
+            {/* Hidden dummy fields to capture browser automatic autofill */}
+            <input 
+              type="text" 
+              name="fake_student_username" 
+              tabIndex={-1} 
+              aria-hidden="true" 
+              style={{ display: 'none', position: 'absolute', opacity: 0, height: 0, width: 0, pointerEvents: 'none' }} 
+            />
+            <input 
+              type="password" 
+              name="fake_student_password" 
+              tabIndex={-1} 
+              aria-hidden="true" 
+              style={{ display: 'none', position: 'absolute', opacity: 0, height: 0, width: 0, pointerEvents: 'none' }} 
+            />
+
             <div>
               <label className="font-bold text-slate-300 block mb-1">Student Email Address</label>
               <div className="relative">
                 <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
-                  type="email"
+                  type="text"
+                  name="student_user_email_no_autofill"
+                  id="student_email_no_autofill"
+                  autoComplete="off"
                   value={email}
                   onChange={e => {
                     setEmail(e.target.value);
@@ -171,6 +207,9 @@ export const StudentLoginPage: React.FC = () => {
                 <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
                   type={showPassword ? 'text' : 'password'}
+                  name="student_user_password_no_autofill"
+                  id="student_password_no_autofill"
+                  autoComplete="new-password"
                   value={password}
                   onChange={e => {
                     setPassword(e.target.value);
