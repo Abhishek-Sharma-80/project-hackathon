@@ -170,19 +170,25 @@ export const AdminStudentsPage: React.FC = () => {
               <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
                 {filteredStudents.map(student => {
                   const status = statusMap[student.id] || 'Active';
-                  const profileStrength = student.name === 'Abhishek Sharma' ? 82 : (student.profile?.resumeScore || 85);
-                  const readinessScore = student.name === 'Abhishek Sharma' ? 91 : Math.min(96, (student.profile?.resumeScore || 80) + 4);
+                  const profileStrength = student.profile?.resumeScore || Math.floor(70 + (student.id.charCodeAt(student.id.length - 1) % 20));
+                  const readinessScore = Math.min(96, (student.profile?.resumeScore || 80) + Math.floor(student.id.charCodeAt(student.id.length - 2) % 10));
                   return (
                     <tr key={student.id} className="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition-colors">
                       
                       {/* Student Name & Email */}
                       <td className="py-3.5 px-4">
                         <div className="flex items-center space-x-3">
-                          <img
-                            src={student.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${student.name}`}
-                            alt={student.name}
-                            className="w-9 h-9 rounded-2xl object-cover border border-slate-200 dark:border-slate-700 shrink-0"
-                          />
+                          {student.avatar ? (
+                            <img
+                              src={student.avatar}
+                              alt={student.name}
+                              className="w-9 h-9 rounded-2xl object-cover border border-slate-200 dark:border-slate-700 shrink-0"
+                            />
+                          ) : (
+                            <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white text-xs font-black shrink-0">
+                              {student.name.split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)}
+                            </div>
+                          )}
                           <div>
                             <p className="font-extrabold text-slate-900 dark:text-white">{student.name}</p>
                             <p className="text-[11px] text-slate-400">{student.email}</p>
@@ -235,7 +241,7 @@ export const AdminStudentsPage: React.FC = () => {
                       {/* Applications */}
                       <td className="py-3.5 px-4 text-center">
                         <span className="font-bold text-slate-700 dark:text-slate-300">
-                          {student.name === 'Abhishek Sharma' ? '12 Applications' : '6 Applications'}
+                          {student.profile?.projects?.length ? `${student.profile.projects.length} Projects` : '—'}
                         </span>
                       </td>
 
@@ -337,7 +343,7 @@ export const AdminStudentsPage: React.FC = () => {
                 {/* Profile Strength Circular Progress */}
                 <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 flex items-center space-x-4">
                   <CircularProgress
-                    value={selectedStudent.name === 'Abhishek Sharma' ? 82 : 88}
+                    value={selectedStudent.profile?.resumeScore || 82}
                     size={72}
                     strokeWidth={8}
                     colorClass="text-indigo-600 dark:text-indigo-400"
@@ -351,7 +357,7 @@ export const AdminStudentsPage: React.FC = () => {
                 {/* AI Selection Readiness */}
                 <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/80 flex items-center space-x-4">
                   <CircularProgress
-                    value={selectedStudent.name === 'Abhishek Sharma' ? 91 : 94}
+                    value={Math.min(98, (selectedStudent.profile?.resumeScore || 80) + 9)}
                     size={72}
                     strokeWidth={8}
                     colorClass="text-emerald-500"

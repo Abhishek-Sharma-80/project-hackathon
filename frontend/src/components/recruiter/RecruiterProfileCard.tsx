@@ -249,7 +249,7 @@ export const RecruiterProfileCard: React.FC<RecruiterProfileCardProps> = ({
               >
                 <span className="flex items-center space-x-2">
                   <User className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>Student View (Abhishek)</span>
+                  <span>Student View (Demo)</span>
                 </span>
                 <span className="text-[10px] text-indigo-400 font-bold">Switch</span>
               </button>

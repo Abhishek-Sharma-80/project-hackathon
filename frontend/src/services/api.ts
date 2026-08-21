@@ -95,19 +95,34 @@ class ApiService {
         body: JSON.stringify(credentials)
       });
     } catch {
-      // Mock Fallback
+      // Mock Fallback — derive name and role from the actual email typed
       const token = 'mock-jwt-token-xyz';
       const role = credentials.email.includes('admin') ? 'admin' : credentials.email.includes('recruiter') ? 'recruiter' : 'student';
+      // Derive a human-readable name from email: e.g. dev@gmail.com → Dev
+      const emailLocalPart = credentials.email.split('@')[0];
+      const derivedName = emailLocalPart
+        .split(/[._\-+]/)  // split on common separators
+        .map((part: string) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+        .join(' ');
       const user: User = {
-        id: 'usr-student-01',
-        name: credentials.email.includes('admin') ? 'Dr. Ramesh Kumar (Admin)' : credentials.email.includes('recruiter') ? 'Pooja Nair (Recruiter)' : 'Abhishek Sharma',
+        id: `usr-${role}-${Date.now()}`,
+        name: derivedName,
         email: credentials.email,
         role: role as any,
-        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
         createdAt: new Date().toISOString()
       };
-      const profile = this.getLocal<StudentProfile>('profile', INITIAL_PROFILE);
+      // Try to reuse any stored profile if it belongs to this email
+      const storedProfile = this.getLocal<StudentProfile>('profile', INITIAL_PROFILE);
+      const profile: StudentProfile = {
+        ...storedProfile,
+        id: `prof-${Date.now()}`,
+        userId: user.id,
+        fullName: user.name,
+        email: user.email,
+        onboardingCompleted: storedProfile.email === credentials.email ? storedProfile.onboardingCompleted : false
+      };
       this.setLocal('user', user);
+      this.setLocal('profile', profile);
       return { success: true, token, user, profile };
     }
   }
@@ -155,9 +170,8 @@ class ApiService {
         user = {
           id: 'usr-admin-01',
           name: 'Prof. Ramesh Mehta',
-          email: 'admin.placement@galgotias.edu',
+          email: 'admin.placement@interndisha.edu',
           role: 'admin',
-          avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80',
           createdAt: new Date().toISOString()
         };
       } else if (role === 'recruiter') {
@@ -167,14 +181,27 @@ class ApiService {
           email: 'pooja.nair@technova.ai',
           role: 'recruiter',
           companyName: 'TechNova',
-          avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&auto=format&fit=crop&q=80',
           createdAt: new Date().toISOString()
         };
       } else {
-        user = INITIAL_USER;
+        // Generic demo student — no hardcoded name
+        user = {
+          id: 'usr-demo-student-01',
+          name: 'Demo Student',
+          email: 'demo.student@interndisha.edu',
+          role: 'student',
+          createdAt: new Date().toISOString()
+        };
       }
-      const profile = this.getLocal<StudentProfile>('profile', INITIAL_PROFILE);
+      const profile: StudentProfile = {
+        ...INITIAL_PROFILE,
+        id: `prof-demo-${role}-${Date.now()}`,
+        userId: user.id,
+        fullName: user.name,
+        email: user.email
+      };
       this.setLocal('user', user);
+      this.setLocal('profile', profile);
       return { success: true, token, user, profile };
     }
   }
@@ -360,14 +387,18 @@ class ApiService {
       const intern = list.find(i => i.id === internshipId) || list[0];
       const apps = this.getLocal<Application[]>('applications', MOCK_APPLICATIONS);
 
+      // Use the currently logged-in user's data
+      const currentUser = this.getLocal<User | null>('user', null);
+      const currentProfile = this.getLocal<StudentProfile | null>('profile', null);
+
       const newApp: Application = {
         id: `app-${Date.now()}`,
-        userId: 'usr-student-01',
-        studentName: 'Abhishek Sharma',
-        studentEmail: 'abhishek.sharma@galgotiasuniversity.edu.in',
-        studentCollege: 'Galgotias University',
-        studentBranch: 'Computer Science',
-        studentCgpa: 8.4,
+        userId: currentUser?.id || 'usr-student-01',
+        studentName: currentUser?.name || currentProfile?.fullName || 'Student',
+        studentEmail: currentUser?.email || currentProfile?.email || '',
+        studentCollege: currentProfile?.college || 'Your University',
+        studentBranch: currentProfile?.branch || 'Computer Science',
+        studentCgpa: currentProfile?.cgpa || 0,
         internshipId,
         internship: intern,
         status: 'Applied',
@@ -381,6 +412,7 @@ class ApiService {
       return { success: true, message: 'Application submitted successfully!', application: newApp };
     }
   }
+
 
   async updateApplicationStatus(id: string, status: Application['status']) {
     try {

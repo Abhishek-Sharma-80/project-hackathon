@@ -24,21 +24,21 @@ import { StitchCard, StitchProgressBar, StitchBadge } from '../components/stitch
 import { useAuth } from '../context/AuthContext';
 
 export const ProfilePage: React.FC = () => {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
 
-  const skills = [
-    { name: 'Java Programming', level: 90, color: 'from-emerald-500 to-teal-400' },
-    { name: 'SQL & Database Architecture', level: 85, color: 'from-emerald-500 to-teal-400' },
-    { name: 'Python Scripting', level: 80, color: 'from-emerald-500 to-teal-400' },
-    { name: 'Git & Version Control', level: 80, color: 'from-emerald-500 to-teal-400' },
-    { name: 'REST API Architecture', level: 60, color: 'from-amber-500 to-orange-400' },
-    { name: 'Docker & Containerization', level: 50, color: 'from-purple-500 to-indigo-400' }
-  ];
+  // Dynamic skills from profile, fallback to sample
+  const skills = (profile?.skills && profile.skills.length > 0)
+    ? profile.skills.slice(0, 6).map((s: string, i: number) => ({
+        name: s,
+        level: Math.max(50, 90 - i * 8),
+        color: i < 3 ? 'from-emerald-500 to-teal-400' : i < 5 ? 'from-amber-500 to-orange-400' : 'from-purple-500 to-indigo-400'
+      }))
+    : [
+        { name: 'Add your skills in profile settings', level: 0, color: 'from-slate-600 to-slate-500' }
+      ];
 
-  const certifications = [
-    { title: 'AWS Certified Cloud Practitioner', issuer: 'Amazon Web Services', date: 'Dec 2025', badge: 'Active' },
-    { title: 'Oracle Certified Java SE 11 Developer', issuer: 'Oracle Corporation', date: 'Aug 2025', badge: 'Verified' }
-  ];
+  const certifications: { title: string; issuer: string; date: string; badge: string }[] = [];
+
 
   return (
     <DashboardLayout>
@@ -49,27 +49,42 @@ export const ProfilePage: React.FC = () => {
           <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex items-center space-x-5">
               <div className="w-20 h-20 rounded-3xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center text-white text-2xl font-black shadow-lg shadow-indigo-600/30 border-2 border-indigo-400/40">
-                {user?.name ? user.name.slice(0, 2).toUpperCase() : 'AM'}
+                {(user?.name || profile?.fullName || 'ST')
+                  .split(' ')
+                  .map((w: string) => w[0])
+                  .join('')
+                  .toUpperCase()
+                  .slice(0, 2)}
               </div>
               <div className="space-y-1">
                 <div className="flex items-center space-x-2">
                   <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
-                    {user?.name || 'Alex Mercer'}
+                    {user?.name || profile?.fullName || 'Student'}
                   </h1>
                   <StitchBadge label="Verified Candidate" variant="success" />
                 </div>
                 <p className="text-xs sm:text-sm text-slate-300">
-                  Computer Science Student • Class of 2026
+                  {profile?.course || 'Computer Science'} {profile?.branch ? `• ${profile.branch}` : ''} {profile?.currentYear ? `• ${profile.currentYear}` : ''}
                 </p>
                 <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400 pt-1">
-                  <span className="flex items-center space-x-1">
-                    <MapPin className="w-3.5 h-3.5 text-slate-500" />
-                    <span>San Francisco, CA</span>
-                  </span>
-                  <span className="flex items-center space-x-1">
-                    <GraduationCap className="w-3.5 h-3.5 text-indigo-400" />
-                    <span>GPA: <strong className="text-white">3.8 / 4.0</strong></span>
-                  </span>
+                  {profile?.preferredLocation && (
+                    <span className="flex items-center space-x-1">
+                      <MapPin className="w-3.5 h-3.5 text-slate-500" />
+                      <span>{profile.preferredLocation}</span>
+                    </span>
+                  )}
+                  {profile?.cgpa && (
+                    <span className="flex items-center space-x-1">
+                      <GraduationCap className="w-3.5 h-3.5 text-indigo-400" />
+                      <span>CGPA: <strong className="text-white">{profile.cgpa} / 10</strong></span>
+                    </span>
+                  )}
+                  {profile?.college && (
+                    <span className="flex items-center space-x-1">
+                      <Award className="w-3.5 h-3.5 text-emerald-400" />
+                      <span>{profile.college}</span>
+                    </span>
+                  )}
                 </div>
               </div>
             </div>

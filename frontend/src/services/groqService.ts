@@ -69,10 +69,10 @@ class GroqService {
   ): Promise<string> {
     const studentInfo = studentContext ? `
 STUDENT PROFILE CONTEXT:
-- Name: ${studentContext.name || 'Abhishek Sharma'}
-- College: ${studentContext.college || 'Galgotias University'}
-- Department: ${studentContext.branch || 'Computer Science & Engineering'} (CGPA: ${studentContext.cgpa || 8.4}/10.0)
-- Verified Skills: ${(studentContext.skills || ['Java', 'SQL', 'Git', 'OOP', 'DSA', 'React']).join(', ')}
+- Name: ${studentContext.name || 'Student'}
+- College: ${studentContext.college || 'Your University'}
+- Department: ${studentContext.branch || 'Computer Science'} (CGPA: ${studentContext.cgpa || 'N/A'}/10.0)
+- Verified Skills: ${(studentContext.skills || []).join(', ') || 'Not specified'}
 ` : '';
 
     const systemPrompt = `You are "Disha AI", the intelligent career guidance and internship recommendation assistant on the InternDisha platform.

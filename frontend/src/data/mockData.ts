@@ -11,127 +11,47 @@ import {
 } from '../types';
 
 export const INITIAL_USER: User = {
-  id: 'usr-student-01',
-  name: 'Abhishek Sharma',
-  email: 'abhishek.sharma@galgotiasuniversity.edu.in',
+  id: 'usr-student-demo',
+  name: 'Demo Student',
+  email: 'demo.student@interndisha.edu',
   role: 'student',
-  avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
-  createdAt: '2025-01-10T10:00:00Z'
+  createdAt: new Date().toISOString()
 };
 
 export const INITIAL_PROFILE: StudentProfile = {
-  id: 'prof-01',
-  userId: 'usr-student-01',
-  fullName: 'Abhishek Sharma',
-  email: 'abhishek.sharma@galgotiasuniversity.edu.in',
-  phone: '+91 98765 43210',
+  id: 'prof-demo',
+  userId: 'usr-student-demo',
+  fullName: 'Demo Student',
+  email: 'demo.student@interndisha.edu',
+  phone: '',
   highestQualification: 'B.Tech',
-  college: 'Galgotias University',
+  college: 'Your University',
   course: 'Computer Science and Engineering',
-  branch: 'Software Engineering',
+  branch: 'Computer Science',
   currentYear: '3rd Year',
-  cgpa: 8.4,
-  skills: ['Java', 'SQL', 'Git', 'OOP', 'DSA', 'React', 'JavaScript', 'HTML5', 'CSS3', 'Tailwind CSS', 'Python', 'Communication'],
-  interests: ['Software Development', 'Artificial Intelligence', 'Cloud Computing'],
-  preferredRoles: ['Backend Developer', 'Java Developer', 'Full Stack Developer'],
-  preferredLocation: 'Remote / Bengaluru / Delhi NCR',
+  cgpa: 0,
+  skills: [],
+  interests: ['Software Development'],
+  preferredRoles: ['Software Developer'],
+  preferredLocation: 'Remote',
   workPreference: 'Remote',
   durationPreference: '6 Months',
-  experienceLevel: 'Intermediate',
-  languages: ['English', 'Hindi'],
-  bio: 'Ambitious 3rd-year CS student passionate about backend systems, scalable REST APIs, and database optimization. Actively building projects in Java, Spring Boot, and React.',
-  linkedinUrl: 'https://linkedin.com/in/abhishek-sharma-dev',
-  githubUrl: 'https://github.com/Abhishek-Sharma-80',
-  portfolioUrl: 'https://abhishek-portfolio.dev',
-  resumeUrl: 'https://interndisha.org/resumes/abhishek-sharma.pdf',
-  resumeScore: 88,
-  projects: [
-    {
-      id: 'proj-1',
-      title: 'Distributed Task Queue Engine',
-      description: 'Engineered a resilient high-throughput task worker using Java, Redis queue, and PostgreSQL with automatic retry mechanisms.',
-      technologies: ['Java', 'Redis', 'PostgreSQL', 'Docker'],
-      githubUrl: 'https://github.com/Abhishek-Sharma-80/task-engine'
-    },
-    {
-      id: 'proj-2',
-      title: 'InternDisha Recommendation Visualizer',
-      description: 'Created an explainable AI career matching interface featuring multi-factor scoring metrics and interactive skill radar charts.',
-      technologies: ['React', 'TypeScript', 'Tailwind CSS', 'Recharts'],
-      githubUrl: 'https://github.com/Abhishek-Sharma-80/interndisha'
-    },
-    {
-      id: 'proj-3',
-      title: 'E-Commerce Microservices REST API',
-      description: 'Designed JWT authentication, order orchestration, and catalog microservices with comprehensive OpenAPI Swagger docs.',
-      technologies: ['Java', 'Spring Boot', 'MySQL', 'JWT'],
-      githubUrl: 'https://github.com/Abhishek-Sharma-80/ecommerce-api'
-    },
-    {
-      id: 'proj-4',
-      title: 'Campus Placement Analytics Dashboard',
-      description: 'Built an interactive reporting dashboard tracking student interview conversion funnels and company hiring metrics.',
-      technologies: ['React', 'Node.js', 'SQL', 'Chart.js'],
-      githubUrl: 'https://github.com/Abhishek-Sharma-80/placement-stats'
-    }
-  ],
-  certifications: [
-    {
-      id: 'cert-1',
-      title: 'Oracle Certified Associate: Java SE 17 Programmer',
-      issuer: 'Oracle',
-      issueDate: 'Nov 2024',
-      credentialUrl: 'https://oracle.com/verify/12345'
-    },
-    {
-      id: 'cert-2',
-      title: 'Meta Front-End Developer Professional Certificate',
-      issuer: 'Coursera / Meta',
-      issueDate: 'Aug 2024',
-      credentialUrl: 'https://coursera.org/verify/meta-react'
-    },
-    {
-      id: 'cert-3',
-      title: 'SQL for Data Analysis & Engineering',
-      issuer: 'HackerRank',
-      issueDate: 'Jul 2024',
-      credentialUrl: 'https://hackerrank.com/certificates/sql-gold'
-    },
-    {
-      id: 'cert-4',
-      title: 'AWS Certified Cloud Practitioner',
-      issuer: 'Amazon Web Services',
-      issueDate: 'Jan 2025',
-      credentialUrl: 'https://aws.amazon.com/verification'
-    },
-    {
-      id: 'cert-5',
-      title: 'Data Structures & Algorithms in Java Specialization',
-      issuer: 'UC San Diego / Coursera',
-      issueDate: 'May 2024',
-      credentialUrl: 'https://coursera.org/verify/dsa-java'
-    },
-    {
-      id: 'cert-6',
-      title: 'Docker & Containerization Fundamentals',
-      issuer: 'Docker Inc.',
-      issueDate: 'Dec 2024',
-      credentialUrl: 'https://docker.com/certs/verify'
-    }
-  ],
-  experiences: [
-    {
-      id: 'exp-1',
-      role: 'Open Source Software Contributor',
-      company: 'GirlScript Summer of Code (GSSoC)',
-      duration: 'May 2024 - Aug 2024',
-      description: 'Collaborated on Java backend repositories, resolved 14+ open issues, and optimized SQL query execution latency by 32%.',
-      skills: ['Java', 'Git', 'SQL', 'Code Review']
-    }
-  ],
-  onboardingCompleted: true,
-  updatedAt: '2025-02-20T12:00:00Z'
+  experienceLevel: 'Beginner',
+  languages: ['English'],
+  bio: '',
+  linkedinUrl: '',
+  githubUrl: '',
+  portfolioUrl: '',
+  resumeUrl: '',
+  resumeScore: 0,
+  projects: [],
+
+  certifications: [],
+  experiences: [],
+  onboardingCompleted: false,
+  updatedAt: new Date().toISOString()
 };
+
 
 export const MOCK_INTERNSHIPS: Internship[] = [
   {

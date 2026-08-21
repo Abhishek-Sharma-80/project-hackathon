@@ -24,7 +24,8 @@ import { StitchCard, StitchStatCard, StitchMatchGauge, StitchBadge } from '../co
 import { useAuth } from '../context/AuthContext';
 
 export const DashboardPage: React.FC = () => {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
+
 
   const metrics = [
     {
@@ -129,7 +130,7 @@ export const DashboardPage: React.FC = () => {
                 <span>AI Student Copilot Active</span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
-                Welcome back, {user?.name || 'Abhishek Sharma'} 👋
+                Welcome back, {user?.name || profile?.fullName || 'Student'} 👋
               </h1>
               <p className="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed">
                 Your AI recommendation engine has detected <strong className="text-white">3 new high-match internships</strong> based on your verified skills.

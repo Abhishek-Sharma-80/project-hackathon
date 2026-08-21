@@ -279,7 +279,7 @@ export const Navbar: React.FC = () => {
                     className="w-full text-left px-3 py-2 text-xs font-medium text-slate-700 dark:text-slate-200 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 flex items-center justify-between"
                   >
                     <span>🎓 {t('nav_demo_student')}</span>
-                    <span className="text-[10px] text-slate-400">Abhishek</span>
+                    <span className="text-[10px] text-slate-400">Demo</span>
                   </button>
                   <button
                     onClick={() => handleDemo('recruiter')}

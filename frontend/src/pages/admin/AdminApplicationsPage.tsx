@@ -161,14 +161,12 @@ export const AdminApplicationsPage: React.FC = () => {
                       {/* Student */}
                       <td className="py-3.5 px-4">
                         <div className="flex items-center space-x-2.5">
-                          <img
-                            src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&auto=format&fit=crop&q=80"
-                            alt="Student"
-                            className="w-8 h-8 rounded-xl object-cover border border-slate-200 dark:border-slate-700"
-                          />
+                          <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white text-xs font-black border border-slate-200 dark:border-slate-700 shrink-0">
+                            {(app.studentName || 'ST').split(' ').map((w: string) => w[0]).join('').toUpperCase().slice(0, 2)}
+                          </div>
                           <div>
-                            <p className="font-extrabold text-slate-900 dark:text-white">Abhishek Sharma</p>
-                            <p className="text-[10px] text-slate-400">Galgotias University (B.Tech CSE)</p>
+                            <p className="font-extrabold text-slate-900 dark:text-white">{app.studentName || 'Student'}</p>
+                            <p className="text-[10px] text-slate-400">{app.studentCollege || 'University'} {app.studentBranch ? `(${app.studentBranch})` : ''}</p>
                           </div>
                         </div>
                       </td>
