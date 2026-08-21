@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useLanguage } from '../../context/LanguageContext';
+import { useLanguage, LANGUAGES } from '../../context/LanguageContext';
 import { useTheme } from '../../context/ThemeContext';
 import {
   Compass,
@@ -23,7 +23,9 @@ import {
   Bell,
   Sun,
   Moon,
-  Languages
+  Languages as LangIcon,
+  Building2,
+  ChevronDown
 } from 'lucide-react';
 
 interface DashboardLayoutProps {
@@ -37,26 +39,28 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const [notifications, setNotifications] = useState([
-    { id: '1', title: 'Application Reviewed', desc: 'NexGen AI Labs viewed your Machine Learning application.', time: '10m ago', read: false, link: '/applications' },
-    { id: '2', title: 'High-Match Opportunity', desc: 'New Frontend React Internship posted with 95% compatibility.', time: '1h ago', read: false, link: '/recommendations' },
-    { id: '3', title: 'Skill Growth Tip', desc: 'Learning TypeScript unlocks 6 more high-paying internships.', time: '1d ago', read: true, link: '/skill-gap' }
+    { id: '1', title: 'TechNova Status Update', desc: 'Your Backend Developer application was shortlisted for Interview Round 1.', time: '10m ago', read: false, link: '/applications' },
+    { id: '2', title: 'High AI Compatibility Match (94%)', desc: 'NexGen AI Labs posted Machine Learning & AI Intern matching your profile.', time: '1h ago', read: false, link: '/recommendations' },
+    { id: '3', title: 'Skill Milestone Alert', desc: 'Complete Spring Boot basics on your Roadmap to reach 98% hiring readiness.', time: '1d ago', read: true, link: '/learning-path' }
   ]);
   const location = useLocation();
   const navigate = useNavigate();
 
   const navItems = [
     { label: t('nav_dashboard'), path: '/dashboard', icon: LayoutDashboard },
-    { label: t('nav_recommendations'), path: '/recommendations', icon: Sparkles, badge: 'AI' },
+    { label: t('nav_recommendations'), path: '/recommendations', icon: Sparkles, badge: '91% AI' },
     { label: t('nav_explore'), path: '/explore', icon: Search },
     { label: t('nav_skill_gap'), path: '/skill-gap', icon: TrendingUp },
     { label: t('nav_learning_path'), path: '/learning-path', icon: Map },
     { label: t('nav_applications'), path: '/applications', icon: Briefcase },
     { label: t('nav_saved'), path: '/saved', icon: Bookmark },
     { label: t('nav_profile'), path: '/profile', icon: User },
+    { label: 'Company Hub', path: '/recruiter', icon: Building2, badge: 'Partner' }
   ];
 
-  if (isAdmin) {
+  if (isAdmin || user?.role === 'admin') {
     navItems.push({ label: t('nav_admin_panel'), path: '/admin', icon: ShieldCheck, badge: 'Admin' });
   }
 
@@ -75,15 +79,15 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
         <div>
           <div className="flex items-center justify-between h-16 px-4 border-b border-slate-100 dark:border-slate-800/80">
             <Link to="/" className="flex items-center space-x-2.5 overflow-hidden">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-sky-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 shrink-0">
+              <div className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-sky-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20 shrink-0">
                 <Compass className="w-5 h-5" />
               </div>
               {!collapsed && (
                 <div className="flex items-center space-x-1 whitespace-nowrap">
-                  <span className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-indigo-600 via-indigo-500 to-sky-500 bg-clip-text text-transparent">
+                  <span className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-indigo-600 via-purple-600 to-sky-500 bg-clip-text text-transparent">
                     InternDisha
                   </span>
-                  <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+                  <span className="text-[9px] font-extrabold px-1.5 py-0.2 rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
                     AI
                   </span>
                 </div>
@@ -91,7 +95,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
             </Link>
             <button
               onClick={() => setCollapsed(!collapsed)}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             >
               {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
@@ -99,7 +103,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
           </div>
 
           {/* Navigation Links */}
-          <nav className="p-3 space-y-1.5">
+          <nav className="p-3 space-y-1">
             {navItems.map(item => {
               const Icon = item.icon;
               const active = isActive(item.path);
@@ -107,7 +111,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex items-center space-x-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all group ${
+                  className={`flex items-center space-x-3 px-3 py-2.5 rounded-2xl text-xs font-semibold transition-all group ${
                     active
                       ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/25'
                       : 'text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40'
@@ -125,6 +129,8 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
                               ? 'bg-white/20 text-white'
                               : item.badge === 'Admin'
                               ? 'bg-purple-100 text-purple-700 dark:bg-purple-950 dark:text-purple-300'
+                              : item.badge === 'Partner'
+                              ? 'bg-sky-100 text-sky-700 dark:bg-sky-950 dark:text-sky-300'
                               : 'bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300'
                           }`}
                         >
@@ -141,16 +147,16 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
 
         {/* Bottom Profile Snapshot */}
         <div className="p-3 border-t border-slate-100 dark:border-slate-800/80">
-          <div className={`flex items-center ${collapsed ? 'justify-center' : 'space-x-3'} p-2 rounded-xl bg-slate-50 dark:bg-slate-800/60`}>
+          <div className={`flex items-center ${collapsed ? 'justify-center' : 'space-x-3'} p-2 rounded-2xl bg-slate-50 dark:bg-slate-800/60`}>
             <img
               src={user?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(user?.name || 'User')}`}
               alt="User"
-              className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 shrink-0 object-cover"
+              className="w-8 h-8 rounded-xl bg-slate-200 dark:bg-slate-700 shrink-0 object-cover"
             />
             {!collapsed && (
               <div className="truncate flex-1">
-                <p className="text-xs font-bold text-slate-900 dark:text-white truncate">{user?.name}</p>
-                <p className="text-[10px] text-slate-400 truncate">{profile?.college || (user?.role === 'admin' ? 'Admin Officer' : 'Student')}</p>
+                <p className="text-xs font-bold text-slate-900 dark:text-white truncate">{user?.name || 'Abhishek Sharma'}</p>
+                <p className="text-[10px] text-slate-400 truncate">{profile?.college || (user?.role === 'admin' ? 'Placement Officer' : user?.role === 'recruiter' ? 'TechNova HR' : 'Galgotias University')}</p>
               </div>
             )}
             {!collapsed && (
@@ -174,14 +180,14 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
           <div className="flex items-center space-x-3">
             <button
               onClick={() => setMobileOpen(true)}
-              className="md:hidden p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="md:hidden p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
             >
               <Menu className="w-5 h-5" />
             </button>
             <div className="hidden sm:flex items-center space-x-2">
-              <span className="text-xs font-medium text-slate-500 dark:text-slate-400">InternDisha &gt;</span>
+              <span className="text-xs font-medium text-slate-400">InternDisha &gt;</span>
               <span className="text-xs font-bold text-slate-900 dark:text-white capitalize">
-                {location.pathname.replace('/', '') || 'Dashboard'}
+                {location.pathname.replace('/', '').replace('-', ' ') || 'Dashboard'}
               </span>
             </div>
           </div>
@@ -189,19 +195,44 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
           {/* Quick Header Controls */}
           <div className="flex items-center space-x-2.5">
             
-            {/* Language Switch */}
-            <button
-              onClick={() => setLanguage(language === 'en' ? 'hi' : 'en')}
-              className="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center space-x-1.5"
-            >
-              <Languages className="w-3.5 h-3.5 text-indigo-500" />
-              <span>{language === 'en' ? 'हिन्दी' : 'EN'}</span>
-            </button>
+            {/* 5-Language Switch Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+                className="px-2.5 py-1.5 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center space-x-1.5"
+              >
+                <LangIcon className="w-3.5 h-3.5 text-indigo-500" />
+                <span>{LANGUAGES.find(l => l.code === language)?.nativeName || 'EN'}</span>
+                <ChevronDown className="w-3 h-3 text-slate-400" />
+              </button>
+
+              {langDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-36 rounded-2xl bg-white dark:bg-slate-900 shadow-xl border border-slate-200 dark:border-slate-800 py-1.5 z-50 animate-in fade-in slide-in-from-top-2">
+                  {LANGUAGES.map(lang => (
+                    <button
+                      key={lang.code}
+                      onClick={() => {
+                        setLanguage(lang.code);
+                        setLangDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-3 py-1.5 text-xs font-semibold flex items-center justify-between transition-colors ${
+                        language === lang.code
+                          ? 'bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400'
+                          : 'text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+                      }`}
+                    >
+                      <span>{lang.nativeName}</span>
+                      <span className="text-[10px] text-slate-400 font-normal uppercase">{lang.code}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700"
+              className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700"
             >
               {theme === 'dark' ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-600" />}
             </button>
@@ -210,7 +241,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
             <div className="relative">
               <button
                 onClick={() => setNotificationsOpen(!notificationsOpen)}
-                className="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 relative"
+                className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 relative"
                 title="Notifications"
               >
                 <Bell className="w-4 h-4 text-slate-500" />
@@ -272,7 +303,7 @@ export const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) =>
               <img
                 src={user?.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(user?.name || 'User')}`}
                 alt="User"
-                className="w-8 h-8 rounded-full border border-indigo-200 dark:border-indigo-800 object-cover"
+                className="w-8 h-8 rounded-xl border border-indigo-200 dark:border-indigo-800 object-cover"
               />
             </Link>
           </div>

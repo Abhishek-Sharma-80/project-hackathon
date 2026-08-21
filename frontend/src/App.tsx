@@ -5,9 +5,11 @@ import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 import { AdminRoute } from './components/common/AdminRoute';
+import { DishaAIAssistant } from './components/common/DishaAIAssistant';
 
 // Pages
 import { LandingPage } from './pages/LandingPage';
+import { HowItWorksPage } from './pages/HowItWorksPage';
 import { LoginPage } from './pages/LoginPage';
 import { SignupPage } from './pages/SignupPage';
 import { OnboardingPage } from './pages/OnboardingPage';
@@ -20,6 +22,7 @@ import { ApplicationTrackerPage } from './pages/ApplicationTrackerPage';
 import { SavedInternshipsPage } from './pages/SavedInternshipsPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AdminDashboardPage } from './pages/AdminDashboardPage';
+import { RecruiterDashboardPage } from './pages/RecruiterDashboardPage';
 import { InternshipDetailPage } from './pages/InternshipDetailPage';
 
 export const App: React.FC = () => {
@@ -30,10 +33,12 @@ export const App: React.FC = () => {
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<LandingPage />} />
+            <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/explore" element={<ExploreInternshipsPage />} />
             <Route path="/internships/:id" element={<InternshipDetailPage />} />
+            <Route path="/recruiter" element={<RecruiterDashboardPage />} />
 
             {/* Student Protected Routes */}
             <Route element={<ProtectedRoute />}>
@@ -55,6 +60,9 @@ export const App: React.FC = () => {
             {/* Catch-all fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
+
+          {/* Global Disha AI Floating Assistant */}
+          <DishaAIAssistant />
         </AuthProvider>
       </LanguageProvider>
     </ThemeProvider>

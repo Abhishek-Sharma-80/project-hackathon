@@ -1,4 +1,4 @@
-export type UserRole = 'student' | 'admin';
+export type UserRole = 'student' | 'admin' | 'recruiter';
 
 export interface User {
   id: string;
@@ -6,7 +6,34 @@ export interface User {
   email: string;
   role: UserRole;
   avatar?: string;
+  companyName?: string;
   createdAt: string;
+}
+
+export interface ProjectItem {
+  id: string;
+  title: string;
+  description: string;
+  technologies: string[];
+  githubUrl?: string;
+  liveUrl?: string;
+}
+
+export interface CertificationItem {
+  id: string;
+  title: string;
+  issuer: string;
+  issueDate: string;
+  credentialUrl?: string;
+}
+
+export interface ExperienceItem {
+  id: string;
+  role: string;
+  company: string;
+  duration: string;
+  description: string;
+  skills: string[];
 }
 
 export interface StudentProfile {
@@ -34,6 +61,10 @@ export interface StudentProfile {
   githubUrl?: string;
   portfolioUrl?: string;
   resumeUrl?: string;
+  resumeScore?: number;
+  projects?: ProjectItem[];
+  certifications?: CertificationItem[];
+  experiences?: ExperienceItem[];
   onboardingCompleted: boolean;
   updatedAt: string;
 }
@@ -43,6 +74,21 @@ export interface Skill {
   name: string;
   category: string;
   demandLevel: 'High' | 'Medium' | 'Trending';
+  proficiency?: number;
+}
+
+export interface RecommendationBreakdown {
+  skillsScore: number;
+  sectorScore: number;
+  educationScore: number;
+  locationScore: number;
+  finalMatchScore: number;
+  selectionProbability: number;
+  probabilityLevel: 'High' | 'Medium' | 'Low';
+  matchedSkills: string[];
+  missingSkills: string[];
+  reasons: string[];
+  improvementTips: string[];
 }
 
 export interface Internship {
@@ -72,20 +118,7 @@ export interface Internship {
   selectionProbability?: number | null;
   probabilityLevel?: 'High' | 'Medium' | 'Low' | null;
   breakdown?: RecommendationBreakdown | null;
-}
-
-export interface RecommendationBreakdown {
-  skillsScore: number;
-  sectorScore: number;
-  educationScore: number;
-  locationScore: number;
-  finalMatchScore: number;
-  selectionProbability: number;
-  probabilityLevel: 'High' | 'Medium' | 'Low';
-  matchedSkills: string[];
-  missingSkills: string[];
-  reasons: string[];
-  improvementTips: string[];
+  benefits?: string[];
 }
 
 export interface RecommendedInternship {
@@ -96,6 +129,9 @@ export interface RecommendedInternship {
 export interface SkillGapItem {
   skill: string;
   category: string;
+  currentLevel: number;
+  requiredLevel: number;
+  status: 'Strong' | 'Developing' | 'Missing';
   priority: 'High' | 'Medium' | 'Beginner Friendly';
   whyImportant: string;
   unlockedInternshipsCount: number;
@@ -113,6 +149,7 @@ export interface LearningRoadmapNode {
   title: string;
   description: string;
   skills: string[];
+  estimatedHours?: number;
   status: 'completed' | 'in-progress' | 'locked';
   resources: { name: string; link: string; free: boolean }[];
   projectIdea: string;
@@ -127,19 +164,23 @@ export interface LearningRoadmap {
   nodes: LearningRoadmapNode[];
 }
 
-export type ApplicationStatus = 'Saved' | 'Applied' | 'Under Review' | 'Shortlisted' | 'Rejected';
+export type ApplicationStatus = 'Saved' | 'Applied' | 'Under Review' | 'Shortlisted' | 'Interview' | 'Selected' | 'Rejected';
 
 export interface Application {
   id: string;
   userId: string;
   studentName?: string;
   studentEmail?: string;
+  studentCollege?: string;
+  studentBranch?: string;
+  studentCgpa?: number;
   internshipId: string;
   internship?: Internship;
   status: ApplicationStatus;
   appliedAt: string;
   coverNote?: string;
   notes?: string;
+  interviewDate?: string;
   matchScoreAtApply?: number;
 }
 
@@ -153,11 +194,42 @@ export interface SavedInternship {
 
 export interface AdminStats {
   totalStudents: number;
-  totalInternships: number;
+  activeStudents: number;
+  availableInternships: number;
+  partnerCompanies: number;
   totalApplications: number;
   totalRecommendationsGenerated: number;
+  studentsAtRiskCount: number;
   sectorDistribution: { sector: string; count: number }[];
   topDemandedSkills: { skill: string; count: number }[];
   applicationStatusBreakdown: { status: ApplicationStatus; count: number }[];
+  skillDistribution: { name: string; percentage: number; color: string }[];
+  monthlyTrends: { month: string; applications: number; placements: number }[];
   recentApplications: Application[];
+}
+
+export interface RecruiterCandidate {
+  id: string;
+  name: string;
+  email: string;
+  avatar: string;
+  college: string;
+  branch: string;
+  cgpa: number;
+  graduationYear: string;
+  targetRole: string;
+  matchScore: number;
+  selectionProbability: number;
+  skills: string[];
+  status: 'New' | 'Shortlisted' | 'Interview Scheduled' | 'Offered' | 'Rejected';
+  appliedFor: string;
+  appliedAt: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  sender: 'user' | 'assistant';
+  text: string;
+  timestamp: string;
+  actionButtons?: { label: string; link?: string; action?: string }[];
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Compass, Eye, EyeOff, Lock, Mail, ArrowRight, Sparkles, ShieldCheck, User } from 'lucide-react';
+import { Compass, Eye, EyeOff, Lock, Mail, ArrowRight, Sparkles, ShieldCheck, User, Building2 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { Navbar } from '../components/common/Navbar';
@@ -33,12 +33,14 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  const handleDemo = async (role: 'student' | 'admin') => {
+  const handleDemo = async (role: 'student' | 'admin' | 'recruiter') => {
     setError('');
     setLoading(true);
     try {
       await demoLogin(role);
-      navigate(role === 'admin' ? '/admin' : '/dashboard');
+      if (role === 'admin') navigate('/admin');
+      else if (role === 'recruiter') navigate('/recruiter');
+      else navigate('/dashboard');
     } catch (err: any) {
       setError(err.message || 'Demo login failed.');
     } finally {
@@ -67,7 +69,7 @@ export const LoginPage: React.FC = () => {
             </p>
           </div>
 
-          {/* 1-Click Quick Demo Bar */}
+          {/* 1-Click Quick Demo Bar (Student, Recruiter, Admin) */}
           <div className="p-3 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/60 space-y-2">
             <div className="flex items-center justify-between text-[11px] font-bold text-indigo-700 dark:text-indigo-300">
               <span className="flex items-center space-x-1">
@@ -75,24 +77,33 @@ export const LoginPage: React.FC = () => {
                 <span>Instant 1-Click Demo Login</span>
               </span>
             </div>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-1.5">
               <button
                 type="button"
                 onClick={() => handleDemo('student')}
                 disabled={loading}
-                className="py-2 px-3 rounded-xl bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-800/80 text-xs font-bold text-slate-800 dark:text-slate-100 hover:bg-indigo-50 dark:hover:bg-indigo-900/40 transition-colors shadow-sm flex items-center justify-center space-x-1.5"
+                className="py-2 px-2 rounded-xl bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-800/80 text-[11px] font-bold text-slate-800 dark:text-slate-100 hover:bg-indigo-50 dark:hover:bg-indigo-900/40 transition-colors shadow-sm flex flex-col items-center justify-center space-y-1"
               >
-                <User className="w-3.5 h-3.5 text-indigo-500" />
-                <span>Demo Student</span>
+                <User className="w-4 h-4 text-indigo-500" />
+                <span>Student</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleDemo('recruiter')}
+                disabled={loading}
+                className="py-2 px-2 rounded-xl bg-white dark:bg-slate-800 border border-sky-200 dark:border-sky-800/80 text-[11px] font-bold text-sky-700 dark:text-sky-300 hover:bg-sky-50 dark:hover:bg-sky-900/40 transition-colors shadow-sm flex flex-col items-center justify-center space-y-1"
+              >
+                <Building2 className="w-4 h-4 text-sky-500" />
+                <span>Recruiter</span>
               </button>
               <button
                 type="button"
                 onClick={() => handleDemo('admin')}
                 disabled={loading}
-                className="py-2 px-3 rounded-xl bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-800/80 text-xs font-bold text-purple-700 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-900/40 transition-colors shadow-sm flex items-center justify-center space-x-1.5"
+                className="py-2 px-2 rounded-xl bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-800/80 text-[11px] font-bold text-purple-700 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-900/40 transition-colors shadow-sm flex flex-col items-center justify-center space-y-1"
               >
-                <ShieldCheck className="w-3.5 h-3.5 text-purple-500" />
-                <span>Demo Admin</span>
+                <ShieldCheck className="w-4 h-4 text-purple-500" />
+                <span>Admin</span>
               </button>
             </div>
           </div>
@@ -129,7 +140,7 @@ export const LoginPage: React.FC = () => {
                 </label>
                 <button
                   type="button"
-                  onClick={() => alert('For password reset, please contact support@interndisha.org or use the Demo Login accounts.')}
+                  onClick={() => alert('For password reset, please use the 1-Click Demo Login accounts.')}
                   className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
                 >
                   Forgot password?

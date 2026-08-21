@@ -9,6 +9,7 @@ import applicationRoutes from './routes/applicationRoutes';
 import savedRoutes from './routes/savedRoutes';
 import skillsRoutes from './routes/skillsRoutes';
 import adminRoutes from './routes/adminRoutes';
+import aiRoutes from './routes/aiRoutes';
 
 dotenv.config();
 
@@ -51,6 +52,7 @@ app.use('/api/applications', applicationRoutes);
 app.use('/api/saved', savedRoutes);
 app.use('/api/skills', skillsRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/ai', aiRoutes);
 
 // 404 Handler
 app.use((req: Request, res: Response) => {

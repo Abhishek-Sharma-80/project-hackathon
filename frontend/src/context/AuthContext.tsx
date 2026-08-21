@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User, StudentProfile } from '../types';
+import { User, StudentProfile, UserRole } from '../types';
 import { api } from '../services/api';
 
 interface AuthContextType {
@@ -8,10 +8,11 @@ interface AuthContextType {
   token: string | null;
   isAuthenticated: boolean;
   isAdmin: boolean;
+  isRecruiter: boolean;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string, role?: 'student' | 'admin') => Promise<void>;
-  demoLogin: (role?: 'student' | 'admin') => Promise<void>;
+  register: (name: string, email: string, password: string, role?: UserRole) => Promise<void>;
+  demoLogin: (role?: UserRole) => Promise<void>;
   logout: () => void;
   updateProfileState: (updatedProfile: StudentProfile) => void;
   refreshProfile: () => Promise<void>;
@@ -39,8 +40,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         logout();
       }
     } catch (e) {
-      console.warn('Session verification failed, logging out');
-      logout();
+      console.warn('Session verification fallback to stored session');
+      const storedUser = localStorage.getItem('interndisha_user');
+      const storedProfile = localStorage.getItem('interndisha_profile');
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+        if (storedProfile) setProfile(JSON.parse(storedProfile));
+      }
     } finally {
       setLoading(false);
     }
@@ -56,6 +62,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const data = await api.login({ email, password });
       if (data.success) {
         localStorage.setItem('interndisha_token', data.token);
+        localStorage.setItem('interndisha_user', JSON.stringify(data.user));
         setToken(data.token);
         setUser(data.user);
         setProfile(data.profile || null);
@@ -65,12 +72,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const register = async (name: string, email: string, password: string, role: 'student' | 'admin' = 'student') => {
+  const register = async (name: string, email: string, password: string, role: UserRole = 'student') => {
     setLoading(true);
     try {
       const data = await api.register({ name, email, password, role });
       if (data.success) {
         localStorage.setItem('interndisha_token', data.token);
+        localStorage.setItem('interndisha_user', JSON.stringify(data.user));
         setToken(data.token);
         setUser(data.user);
         if (role === 'student') {
@@ -82,12 +90,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const demoLogin = async (role: 'student' | 'admin' = 'student') => {
+  const demoLogin = async (role: UserRole = 'student') => {
     setLoading(true);
     try {
       const data = await api.demoLogin(role);
       if (data.success) {
         localStorage.setItem('interndisha_token', data.token);
+        localStorage.setItem('interndisha_user', JSON.stringify(data.user));
         setToken(data.token);
         setUser(data.user);
         setProfile(data.profile || null);
@@ -99,6 +108,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = () => {
     localStorage.removeItem('interndisha_token');
+    localStorage.removeItem('interndisha_user');
     setToken(null);
     setUser(null);
     setProfile(null);
@@ -106,6 +116,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const updateProfileState = (updatedProfile: StudentProfile) => {
     setProfile(updatedProfile);
+    localStorage.setItem('interndisha_profile', JSON.stringify(updatedProfile));
   };
 
   const refreshProfile = async () => {
@@ -113,6 +124,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const data = await api.getProfile();
       if (data.success) {
         setProfile(data.profile);
+        localStorage.setItem('interndisha_profile', JSON.stringify(data.profile));
       }
     } catch (err) {
       console.error('Failed to refresh profile:', err);
@@ -125,6 +137,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     token,
     isAuthenticated: !!user,
     isAdmin: user?.role === 'admin',
+    isRecruiter: user?.role === 'recruiter',
     loading,
     login,
     register,
