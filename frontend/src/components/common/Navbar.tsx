@@ -40,11 +40,11 @@ export const Navbar: React.FC = () => {
     await demoLogin(role);
     setDemoDropdownOpen(false);
     if (role === 'admin') {
-      navigate('/admin');
+      navigate('/admin/dashboard');
     } else if (role === 'recruiter') {
-      navigate('/recruiter');
+      navigate('/recruiter/dashboard');
     } else {
-      navigate('/dashboard');
+      navigate('/student/dashboard');
     }
   };
 
@@ -303,13 +303,13 @@ export const Navbar: React.FC = () => {
             {!isAuthenticated ? (
               <div className="hidden sm:flex items-center space-x-2">
                 <Link
-                  to="/login"
+                  to="/portal-select"
                   className="px-3.5 py-1.5 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
                 >
                   {t('nav_login')}
                 </Link>
                 <Link
-                  to="/signup"
+                  to="/portal-select"
                   className="px-4 py-1.5 text-xs font-bold rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white shadow-sm shadow-indigo-600/30 transition-all hover:scale-[1.02]"
                 >
                   {t('nav_signup')}
