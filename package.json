@@ -1,23 +1,43 @@
 {
-  "name": "smartedu-ai-monorepo",
-  "version": "1.0.0",
+  "name": "smartedu-ai",
+  "version": "2.0.0",
   "private": true,
-  "description": "SmartEdu AI — AI-Powered Personalized Learning, Skill Development & Internship Recommendation Platform",
+  "description": "SmartEdu AI — AI-Powered Personalized Learning, Skill Intelligence & Internship Recommendation Platform",
   "scripts": {
-    "dev:server": "npm run dev --prefix server",
-    "dev:client": "npm run dev --prefix client",
-    "build:server": "npm run build --prefix server",
-    "build:client": "npm run build --prefix client",
-    "seed": "npm run seed --prefix server"
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "next lint",
+    "db:push": "prisma db push",
+    "db:generate": "prisma generate",
+    "db:seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts",
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
-  "keywords": [
-    "smartedu",
-    "ai",
-    "education",
-    "sih2026",
-    "internship",
-    "recommendation-engine"
-  ],
-  "author": "SmartEdu AI Team",
-  "license": "MIT"
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^2.4.3",
+    "canvas-confetti": "^1.9.4",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.15.0",
+    "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.469.0",
+    "next": "^14.2.23",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^2.6.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/canvas-confetti": "^1.9.0",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^20.17.10",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "prisma": "^5.22.0",
+    "tailwindcss": "^3.4.17",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
 }
