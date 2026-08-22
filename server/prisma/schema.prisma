@@ -1,0 +1,281 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String          @id @default(uuid())
+  email        String          @unique
+  passwordHash String
+  name         String
+  role         String          @default("STUDENT") // STUDENT, ADMIN
+  avatarUrl    String?
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  profile      StudentProfile?
+}
+
+model StudentProfile {
+  id              String            @id @default(uuid())
+  userId          String            @unique
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  college         String            @default("Galgotias University")
+  course          String            @default("B.Tech")
+  branch          String            @default("Computer Science & Engineering")
+  graduationYear  Int               @default(2026)
+  cgpa            Float             @default(8.5)
+  semester        Int               @default(6)
+  profileScore    Int               @default(80) // 0-100
+  careerReadiness Int               @default(75) // 0-100
+  bio             String?
+  targetRole      String            @default("Backend Developer")
+  skills          StudentSkill[]
+  projects        Project[]
+  certifications  Certification[]
+  careerGoals     CareerGoal[]
+  applications    Application[]
+  assessments     SkillAssessment[]
+  skillGaps       SkillGap[]
+  learningPaths   LearningPath[]
+  recommendations Recommendation[]
+  chatMessages    ChatMessage[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+}
+
+model Skill {
+  id                String               @id @default(uuid())
+  name              String               @unique
+  category          String               // Programming, Web, Backend, Database, Cloud, AI/ML, Core CS, DevOps, Tools
+  industryDemand    Int                  @default(80) // 0-100
+  description       String?
+  studentSkills     StudentSkill[]
+  internshipSkills  InternshipSkill[]
+  skillGaps         SkillGap[]
+  assessments       SkillAssessment[]
+  questions         AssessmentQuestion[]
+  createdAt         DateTime             @default(now())
+}
+
+model StudentSkill {
+  id            String         @id @default(uuid())
+  studentId     String
+  student       StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  skillId       String
+  skill         Skill          @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  level         Int            @default(50) // 0-100 proficiency
+  verifiedLevel Int?           // from assessments
+  isVerified    Boolean        @default(false)
+  updatedAt     DateTime       @updatedAt
+
+  @@unique([studentId, skillId])
+}
+
+model Project {
+  id           String         @id @default(uuid())
+  studentId    String
+  student      StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  title        String
+  description  String
+  technologies String         // comma-separated or JSON list
+  githubUrl    String?
+  projectUrl   String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+model Certification {
+  id             String         @id @default(uuid())
+  studentId      String
+  student        StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  name           String
+  provider       String
+  completionDate String
+  credentialUrl  String?
+  createdAt      DateTime       @default(now())
+}
+
+model CareerGoal {
+  id         String         @id @default(uuid())
+  studentId  String
+  student    StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  careerPath String
+  targetDate String?
+  createdAt  DateTime       @default(now())
+}
+
+model Company {
+  id          String       @id @default(uuid())
+  name        String
+  industry    String
+  description String
+  website     String?
+  location    String
+  logoUrl     String?
+  companySize String       @default("50-200 employees")
+  internships Internship[]
+  createdAt   DateTime     @default(now())
+}
+
+model Internship {
+  id             String            @id @default(uuid())
+  companyId      String
+  company        Company           @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  title          String
+  description    String
+  location       String
+  workMode       String            @default("Remote") // Remote, Hybrid, On-site
+  stipend        String            @default("₹25,000 / month")
+  duration       String            @default("3-6 Months")
+  deadline       String?
+  careerCategory String            @default("Backend") // Backend, Frontend, Full Stack, AI/ML, Cloud, Data Science, CyberSecurity, Mobile
+  active         Boolean           @default(true)
+  responsibilities String?
+  eligibility    String?
+  requiredSkills InternshipSkill[]
+  applications   Application[]
+  recommendations Recommendation[]
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+}
+
+model InternshipSkill {
+  id            String     @id @default(uuid())
+  internshipId  String
+  internship    Internship @relation(fields: [internshipId], references: [id], onDelete: Cascade)
+  skillId       String
+  skill         Skill      @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  requiredLevel Int        @default(70) // 0-100
+  importance    String     @default("REQUIRED") // REQUIRED, PREFERRED
+
+  @@unique([internshipId, skillId])
+}
+
+model Recommendation {
+  id             String         @id @default(uuid())
+  studentId      String
+  student        StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  internshipId   String
+  internship     Internship     @relation(fields: [internshipId], references: [id], onDelete: Cascade)
+  matchScore     Int            @default(80) // 0-100
+  potentialScore Int            @default(95) // projected score after roadmap
+  explanation    String
+  matchingSkills String         // JSON string array
+  missingSkills  String         // JSON string array
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  @@unique([studentId, internshipId])
+}
+
+model SkillGap {
+  id            String         @id @default(uuid())
+  studentId     String
+  student       StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  skillId       String
+  skill         Skill          @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  currentLevel  Int            @default(20)
+  targetLevel   Int            @default(70)
+  gapSize       Int            @default(50)
+  priorityScore Float          @default(85.0)
+  category      String         @default("PRIORITY") // STRONG, DEVELOPING, PRIORITY
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@unique([studentId, skillId])
+}
+
+model LearningPath {
+  id              String           @id @default(uuid())
+  studentId       String
+  student         StudentProfile   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  careerPath      String
+  overallProgress Int              @default(0) // 0-100
+  modules         LearningModule[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model LearningModule {
+  id              String           @id @default(uuid())
+  learningPathId  String
+  learningPath    LearningPath     @relation(fields: [learningPathId], references: [id], onDelete: Cascade)
+  title           String
+  description     String
+  estimatedHours  Int              @default(10)
+  order           Int              @default(1)
+  status          String           @default("AVAILABLE") // LOCKED, AVAILABLE, IN_PROGRESS, COMPLETED
+  progress        Int              @default(0) // 0-100
+  skillsImproved  String           // comma-separated skill names
+  lessons         LearningLesson[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model LearningLesson {
+  id          String         @id @default(uuid())
+  moduleId    String
+  module      LearningModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  title       String
+  duration    String         @default("45 mins")
+  completed   Boolean        @default(false)
+  summary     String
+  codeSnippet String?
+  resources   String?        // JSON array or text
+  order       Int            @default(1)
+  createdAt   DateTime       @default(now())
+}
+
+model SkillAssessment {
+  id             String         @id @default(uuid())
+  studentId      String
+  student        StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  skillId        String
+  skill          Skill          @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  score          Int            // correct answers count e.g. 8
+  totalQuestions Int            @default(10)
+  previousLevel  Int            @default(80)
+  updatedLevel   Int            @default(86)
+  feedback       String?
+  completedAt    DateTime       @default(now())
+}
+
+model AssessmentQuestion {
+  id            String   @id @default(uuid())
+  skillId       String
+  skill         Skill    @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  question      String
+  options       String   // JSON string array of 4 options
+  correctIndex  Int      // 0-3
+  explanation   String
+  difficulty    String   @default("MEDIUM") // EASY, MEDIUM, HARD
+  createdAt     DateTime @default(now())
+}
+
+model Application {
+  id           String         @id @default(uuid())
+  studentId    String
+  student      StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  internshipId String
+  internship   Internship     @relation(fields: [internshipId], references: [id], onDelete: Cascade)
+  status       String         @default("APPLIED") // SAVED, APPLIED, SHORTLISTED, INTERVIEW, SELECTED, REJECTED
+  matchScore   Int            @default(85)
+  notes        String?
+  appliedAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@unique([studentId, internshipId])
+}
+
+model ChatMessage {
+  id        String         @id @default(uuid())
+  studentId String
+  student   StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  sender    String         // USER, AI
+  message   String
+  timestamp DateTime       @default(now())
+}

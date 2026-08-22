@@ -1,29 +1,23 @@
 {
-  "name": "interndisha-platform",
+  "name": "smartedu-ai-monorepo",
   "version": "1.0.0",
-  "description": "InternDisha - Smart AI-Powered Internship Recommender for Youth Empowerment",
+  "private": true,
+  "description": "SmartEdu AI — AI-Powered Personalized Learning, Skill Development & Internship Recommendation Platform",
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
-    "dev:backend": "npm run dev --prefix backend",
-    "dev:frontend": "npm run dev --prefix frontend",
-    "build": "npm run build --prefix backend && npm run build --prefix frontend",
-    "build:backend": "npm run build --prefix backend",
-    "build:frontend": "npm run build --prefix frontend",
-    "vercel-build": "npm run install:all && npm run build",
-    "install:all": "npm install && npm install --prefix backend && npm install --prefix frontend"
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "build:server": "npm run build --prefix server",
+    "build:client": "npm run build --prefix client",
+    "seed": "npm run seed --prefix server"
   },
   "keywords": [
-    "internship",
-    "recommendation-engine",
+    "smartedu",
     "ai",
-    "edtech",
-    "react",
-    "nodejs",
-    "typescript"
+    "education",
+    "sih2026",
+    "internship",
+    "recommendation-engine"
   ],
-  "author": "InternDisha Team",
-  "license": "MIT",
-  "devDependencies": {
-    "concurrently": "^8.2.2"
-  }
+  "author": "SmartEdu AI Team",
+  "license": "MIT"
 }
