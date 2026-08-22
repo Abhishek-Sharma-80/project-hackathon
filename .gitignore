@@ -17,10 +17,10 @@ dist/
 .env
 
 # SQLite / Local Databases
-*.db
 *.db-journal
 *.sqlite
 *.sqlite3
+!prisma/dev.db
 
 # Debug logs
 npm-debug.log*
